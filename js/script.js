@@ -166,7 +166,7 @@ class LibraryManager {
   updateDarkModeButton(isDark) {
     const button = document.getElementById('toggleDarkModeBtn');
     if (button) {
-      button.textContent = isDark ? '☀️ Toggle Light Mode' : '🌙 Toggle Dark Mode';
+      button.textContent = isDark ? '☀️' : '🌙';
     }
   }
 
@@ -745,3 +745,25 @@ window.showToast = (message) => libraryManager.showToast(message);
 window.addEventListener('beforeunload', () => {
   libraryManager.destroy();
 });
+
+
+// Language Selection
+ function setLanguage(lang) {
+    localStorage.setItem('digitalReadsLang', lang);
+    $('#langDropdown').html('🌐 ' + lang);
+    if (typeof showToast === 'function') {
+      showToast('🌐 Language set: ' + lang);
+    }
+    // To update content translations here, add logic as needed!
+  }
+
+  // Set initial language (default ENG)
+  const savedLang = localStorage.getItem('digitalReadsLang') || 'ENG';
+  setLanguage(savedLang);
+
+  $('.lang-select').on('click', function (e) {
+    e.preventDefault();
+    const lang = $(this).data('lang');
+    setLanguage(lang);
+    // Optionally, reload or trigger translation logic
+  });

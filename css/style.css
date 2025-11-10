@@ -40,6 +40,45 @@ body.dark-mode {
   --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
   --shadow-hover: 0 20px 60px rgba(0, 0, 0, 0.7);
 }
+body.dark-mode {
+  background: #171729 !important;
+  color: #fff !important; /* default to white */
+}
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select,
+body.dark-mode .form-control {
+  color: #fff !important;           /* Makes input text white */
+  background-color: #222 !important; /* Optional: makes background dark */
+  border-color: #555 !important;     /* Optional: adjusts border color for dark mode */
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+  color: #bbb !important;           /* Makes placeholder text lighter/non-white */
+  opacity: 1;                       /* Ensures opacity for cross-browser */
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode .counter,
+body.dark-mode .counter-label,
+body.dark-mode label,
+body.dark-mode .card-title,
+body.dark-mode .card-text,
+body.dark-mode .lead {
+  color: #fff !important;
+}
+
+body.dark-mode .text-muted {
+  color: #ddd !important;
+}
+
+
 
 /* Navbar - Glassmorphism Effect */
 .navbar {
@@ -474,3 +513,20 @@ body.dark-mode .accordion-button:not(.collapsed) {
 .accordion-header {
   margin-bottom: 0;
 }
+#toggleDarkModeBtn {
+  transition: background 0.2s, color 0.2s;
+  border-radius:50%;
+}
+body.dark-mode #toggleDarkModeBtn {
+  background: #333 !important;
+  color: #fff !important;
+  border-color: #555 !important;
+}
+#langDropdown {
+  min-width: 80px;
+  font-weight: bold;
+}
+.lang-select {
+  font-size: 1.05rem;
+}
+

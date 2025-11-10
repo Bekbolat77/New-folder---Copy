@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg">
   <div class="container">
     <a class="navbar-brand" href="index.html">📚 Digital Reads</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,6 +43,25 @@
         <li class="nav-item">
           <a class="nav-link" href="profile.html">Profile</a>
         </li>
+    <li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    🌐 ENG
+  </a>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
+    <li><a class="dropdown-item lang-select" data-lang="KAZ" href="#">KAZ</a></li>
+    <li><a class="dropdown-item lang-select" data-lang="RUS" href="#">RUS</a></li>
+    <li><a class="dropdown-item lang-select" data-lang="ENG" href="#">ENG</a></li>
+  </ul>
+</li>
+    <li class="nav-item d-flex align-items-center">
+  <button id="toggleDarkModeBtn"
+          class="btn btn-outline-secondary ms-2"
+          type="button"
+          aria-label="Toggle dark mode"
+          style="min-width:44px; border-radius:50%; font-size:1.4rem; padding:6px 10px; line-height:1;">
+    🌙
+  </button>
+</li>
       </ul>
     </div>
   </div>
