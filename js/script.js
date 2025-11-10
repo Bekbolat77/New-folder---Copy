@@ -211,6 +211,9 @@ class LibraryManager {
     }, 3000);
   }
 
+//Add book
+
+
   // ========================================
   // BOOK SEARCH & AUTOCOMPLETE
   // ========================================
@@ -1095,3 +1098,23 @@ $(document).ready(function () {
   });
 });
 
+// Book "Add to My Books" handler
+$(document).on('click', '.add-to-my-books-btn', function() {
+  const $btn = $(this);
+  const title = $btn.data('title');
+  const author = $btn.data('author');
+  const image = $btn.data('image') || '';
+  const dateAdded = new Date().toISOString();
+  const book = {title, author, image, dateAdded};
+
+  let myBooks = JSON.parse(localStorage.getItem('myBooks')) || [];
+  const exists = myBooks.some(b => b.title === title && b.author === author);
+  if (!exists) {
+    myBooks.push(book);
+    localStorage.setItem('myBooks', JSON.stringify(myBooks));
+    // You can use your own toast here if you wish
+    alert(`✅ "${title}" added to My Books!`);
+  } else {
+    alert(`⚠️ "${title}" is already in your library.`);
+  }
+});

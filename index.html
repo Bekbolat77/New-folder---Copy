@@ -98,43 +98,70 @@
 
   <!-- Featured Books on Homepage -->
   
-<h2 id="featuredBooksTitle" class="mb-4">Featured Books</h2>
-</div>
 <div class="row g-4">
+  <!-- Book 1 -->
   <div class="col-md-4">
     <div class="card">
       <img src="images/the_nomads.jpg" alt="The Nomads" loading="lazy" />
       <div class="card-body">
-        <h5 class="card-title">The Nomads</h5>
-        <p class="card-text small text-muted">by Ilyas Yesenberlin</p>
-        <p class="card-text">Epic tale of the Kazakh nomads and their journey across the Eurasian steppe.</p>
-        <button class="btn btn-primary w-100 read-book-btn">📖 Read Book</button>
+        <h5 class="card-title" id="title1">The Nomads</h5>
+        <p class="card-text small text-muted" id="author1">by Ilyas Yesenberlin</p>
+        <p class="card-text" id="desc1">Epic tale of the Kazakh nomads and their journey across the Eurasian steppe.</p>
+        <div class="d-flex gap-2">
+          <a href="books/the_nomads.pdf" target="_blank" class="btn btn-primary flex-fill" id="readBtn1">📖 Read Book</a>
+          <button
+            class="btn btn-outline-success flex-fill add-to-my-books-btn"
+            data-title="The Nomads"
+            data-author="Ilyas Yesenberlin"
+            data-image="images/the_nomads.jpg"
+            id="addBtn1"
+          >➕ Add</button>
+        </div>
       </div>
     </div>
   </div>
+  <!-- Book 2 -->
   <div class="col-md-4">
     <div class="card">
       <img src="images/react.jpeg" alt="Learning React" loading="lazy" />
       <div class="card-body">
-        <h5 class="card-title">Learning React</h5>
-        <p class="card-text small text-muted">by Alex Banks & Eve Porcello</p>
-        <p class="card-text">Master modern patterns for developing robust React applications.</p>
-        <button class="btn btn-primary w-100 read-book-btn">📖 Read Book</button>
+        <h5 class="card-title" id="title2">Learning React</h5>
+        <p class="card-text small text-muted" id="author2">by Alex Banks & Eve Porcello</p>
+        <p class="card-text" id="desc2">Master modern patterns for developing robust React applications.</p>
+        <div class="d-flex gap-2">
+          <a href="books/learning_react.pdf" target="_blank" class="btn btn-primary flex-fill" id="readBtn2">📖 Read Book</a>
+          <button
+            class="btn btn-outline-success flex-fill add-to-my-books-btn"
+            data-title="Learning React"
+            data-author="Alex Banks & Eve Porcello"
+            data-image="images/react.jpeg"
+            id="addBtn2"
+          >➕ Add</button>
+        </div>
       </div>
     </div>
   </div>
+  <!-- Book 3 -->
   <div class="col-md-4">
     <div class="card">
       <img src="images/python.jpg" alt="Python Crash Course" loading="lazy" />
       <div class="card-body">
-        <h5 class="card-title">Python Crash Course</h5>
-        <p class="card-text small text-muted">by Eric Matthes</p>
-        <p class="card-text">Hands-on, project-based introduction to programming with Python.</p>
-        <button class="btn btn-primary w-100 read-book-btn">📖 Read Book</button>
+        <h5 class="card-title" id="title3">Python Crash Course</h5>
+        <p class="card-text small text-muted" id="author3">by Eric Matthes</p>
+        <p class="card-text" id="desc3">Hands-on, project-based introduction to programming with Python.</p>
+        <div class="d-flex gap-2">
+          <a href="books/python_crash_course.pdf" target="_blank" class="btn btn-primary flex-fill" id="readBtn3">📖 Read Book</a>
+          <button
+            class="btn btn-outline-success flex-fill add-to-my-books-btn"
+            data-title="Python Crash Course"
+            data-author="Eric Matthes"
+            data-image="images/python.jpg"
+            id="addBtn3"
+          >➕ Add</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
     <!-- Theme Toggle -->
  
