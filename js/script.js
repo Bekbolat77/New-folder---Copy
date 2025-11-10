@@ -748,22 +748,350 @@ window.addEventListener('beforeunload', () => {
 
 
 // Language Selection
- function setLanguage(lang) {
-    localStorage.setItem('digitalReadsLang', lang);
-    $('#langDropdown').html('🌐 ' + lang);
-    if (typeof showToast === 'function') {
-      showToast('🌐 Language set: ' + lang);
-    }
-    // To update content translations here, add logic as needed!
-  }
 
-  // Set initial language (default ENG)
+  
+
+// 🌐 Language Translations Dictionary
+// 1. Your translation dictionary
+const translations = {
+  KAZ: {
+    heroTitle: "Digital Reads-ға қош келдіңіз",
+    heroLead: "Заманауи білім мен әдебиет әлеміне жол",
+    booksAvailableLabel: "Кітаптар саны",
+    eventsHostedLabel: "Өткізілген мерекелер",
+    activeMembersLabel: "Белсенді жазылушылар",
+    featuredBooksTitle: "Таңдаулы кітаптар",
+    aboutTitle: "Digital Reads туралы",
+    aboutLead: "Оқырмандарға әлемдік білімге сандық қолжетімділікті қамтамасыз ету",
+    missionTitle: "Біздің Миссиямыз",
+    missionText: "Digital Reads - оқу сүйіспеншілігін ынталандыратын инновациялық онлайн кітапхана. Біз әркімге білімді қолжетімді етеміз.",
+    visionTitle: "Біздің Көзқарасымыз",
+    blogTitle: "Блог және Сарапшылар ойлары",
+    blogLead: "Сарапшылар пікірі, оқу кеңестері және әдеби талдау",
+    badge1: "Оқу кеңестері",
+    blog1Title: "Сандық кітапханалардың болашағы",
+    blog1Meta: "Сара Джонсон • 5 мин оқу",
+    blog1Text: "Технологиялар кітаптарды табу, оқу және бөлісу тәсілін қалай өзгертетінін зерттеу.",
+    blog1Button: "Мақаланы оқу",
+    badge2: "Кітап пікірлері",
+    blog2Title: "2025 жылғы 10 маңызды кітап",
+    blog2Meta: "Майкл Чен • 8 мин оқу",
+    blog2Text: "Жылдың маңызды әдебиеттерінің арнайы таңдауы.",
+    blog2Button: "Мақаланы оқу",
+    badge3: "Жазу өнері",
+    blog3Title: "Тиімді оқу кеңестері",
+    blog3Meta: "Эмма Уотсон • 6 мин оқу",
+    blog3Text: "Оқуды ойдағыдай түсіну мен естеп сақтау қабілетін арттыру үшін кеңестер.",
+    blog3Button: "Мақаланы оқу",
+    badge4: "Әдеби талдау",
+    blog4Title: "Классикалық әдебиетті түсіну",
+    blog4Meta: "Дэвид Ким • 10 мин оқу",
+    blog4Text: "Классикалық әдебиетті мәңгілік және заманауи ететін тақырыптар мен тәсілдерді талдау.",
+    blog4Button: "Мақаланы оқу",
+     catalogTitle: "Кітаптар Каталогы",
+    searchBooks: "🔍 Кітаптарды атауы немесе авторы арқылы іздеу...",
+    featuredBooksTitle: "Таңдаулы кітаптар",
+    badge1: "Классика",
+    title1: "Ұлы Гэтсби",
+    author1: "Ф. Скотт Фицджеральд",
+    readBtn1: "📖 Кітапты оқу",
+    badge2: "Дистопия",
+    title2: "1984",
+    author2: "Джордж Оруэлл",
+    readBtn2: "📖 Кітапты оқу",
+    badge3: "Классика",
+    title3: "Құсты өлтіруге болмайды",
+    author3: "Харпер Ли",
+    readBtn3: "📖 Кітапты оқу",
+    badge4: "Романтика",
+    title4: "Тәкаппарлық пен кескін",
+    author4: "Джейн Остин",
+    readBtn4: "📖 Кітапты оқу",
+    badge5: "Өсу шағы",
+    title5: "Шалғайдағы күзетші",
+    author5: "Дж. Д. Сэлинджер",
+    readBtn5: "📖 Кітапты оқу",
+    badge6: "Фэнтези",
+    title6: "Хоббит",
+    author6: "Дж. Р.Р. Толкин",
+    readBtn6: "📖 Кітапты оқу",
+    detailsInstruction: "Кітаптың толық ақпаратын көру үшін таңдаңыз",
+    visionText: "Әлемнің жетекші цифрлық кітапханасы болу – миллиондаған оқырмандарды және білім ізденушілер қауымдастығын ұсыну.",
+    faqTitle: "Жиі қойылатын сұрақтар",
+     eventsTitle: "[translate:Алда өтетін іс-шаралар]",
+    eventsLead: "[translate:Қауымдастық іс-шараларына қосылыңыз және оқырмандармен танысыңыз]",
+    eventBadge1: "[translate:Автор кездесу]",
+    eventTitle1: "[translate:Автормен кездесу: Цифрлық оқырман]",
+    eventDate1: "[translate:📅 15 қараша 2025 • 🕕 18:00 EST]",
+    eventText1: "[translate:Танымал автор Джейн Доумен интерактивті сессия, цифрлық оқу әдеттері мен жаңа \"Connected Pages\" романы туралы.]",
+    eventBtn1: "[translate:Тіркелу]",
+    eventBadge2: "[translate:Кітап клубы]",
+    eventTitle2: "[translate:Қараша айының виртуалды кітап клубы]",
+    eventDate2: "[translate:📅 25 қараша 2025 • 🕖 19:00 EST]",
+    eventText2: "[translate:Мақсаттарыңызды қойып, оқу барысын бақылап, жетістіктерге жетіңіз!]",
+    eventBtn2: "[translate:Талқылауға қосылу]",
+    eventBadge3: "[translate:Шеберлік сағаты]",
+    eventTitle3: "[translate:Шығармашылық жазу сабағы]",
+    eventDate3: "[translate:📅 5 желтоқсан 2025 • 🕔 17:00 EST]",
+    eventText3: "[translate:Әңгіме айту және кейіпкер жасау негіздерін үйреніңіз.]",
+    eventBtn3: "[translate:Тіркелу]",
+    eventBadge4: "[translate:Қауымдастық іс-шарасы]",
+    eventTitle4: "[translate:Жыл қорытындысы оқу сынағы]",
+    eventDate4: "[translate:📅 1-31 желтоқсан 2025 • Күні бойы]",
+    eventText4: "[translate:Жыл сайынғы оқу сынағына қатысыңыз!]",
+    eventBtn4: "[translate:Қатысу]",
+    eventBadge5: "[translate:Өнер және әдебиет]",
+    eventTitle5: "[translate:Мұқаба дизайны көрмесі]",
+    eventDate5: "[translate:📅 10 желтоқсан 2025 • 🕕 18:30 EST]",
+    eventText5: "[translate:Кәсіби кітап мұқаба дизайнерлерінен шығармашылық үдеріс туралы біліңіз.]",
+    eventBtn5: "[translate:Тіркелу]",
+    eventBadge6: "[translate:Жаһандық оқу]",
+    eventTitle6: "[translate:Әлем әдебиеті фестивалі]",
+    eventDate6: "[translate:📅 15-17 желтоқсан 2025 • Түрлі уақыттарда]",
+    eventText6: "[translate:Үш күндік ғаламдық әдебиет фестивалі, авторлар мен оқырмандар қатысады.]",
+    eventBtn6: "[translate:Кестені көру]"
+  },
+  RUS: {
+    heroTitle: "Добро пожаловать в Digital Reads",
+    heroLead: "Ваш современный портал к знаниям и литературным приключениям",
+    booksAvailableLabel: "Доступно книг",
+    eventsHostedLabel: "Проведено событий",
+    activeMembersLabel: "Активные участники",
+     catalogTitle: "Каталог книг",
+    searchBooks: "🔍 Поиск по названию или автору...",
+    featuredBooksTitle: "Избранные книги",
+    badge1: "Классика",
+    title1: "Великий Гэтсби",
+    author1: "Ф. Скотт Фицджеральд",
+    readBtn1: "📖 Читать книгу",
+    badge2: "Антиутопия",
+    title2: "1984",
+    author2: "Джордж Оруэлл",
+    readBtn2: "📖 Читать книгу",
+    badge3: "Классика",
+    title3: "Убить пересмешника",
+    author3: "Харпер Ли",
+    readBtn3: "📖 Читать книгу",
+    badge4: "Романтика",
+    title4: "Гордость и предубеждение",
+    author4: "Джейн Остин",
+    readBtn4: "📖 Читать книгу",
+    badge5: "Современный роман",
+    title5: "Над пропастью во ржи",
+    author5: "Дж. Д. Сэлинджер",
+    readBtn5: "📖 Читать книгу",
+    badge6: "Фэнтези",
+    title6: "Хоббит",
+    author6: "Дж. Р.Р. Толкин",
+    readBtn6: "📖 Читать книгу",
+    detailsInstruction: "Нажмите на книгу для подробной информации",
+    featuredBooksTitle: "Избранные книги",
+      blogTitle: "Блог и читательские инсайты",
+    blogLead: "Мнение экспертов, советы по чтению и анализ литературы",
+    badge1: "Советы по чтению",
+    blog1Title: "Будущее цифровых библиотек",
+    blog1Meta: "Сара Джонсон • 5 мин чтения",
+    blog1Text: "Изучаем, как технологии меняют способы поиска, чтения и обмена книгами.",
+    blog1Button: "Читать статью",
+    badge2: "Обзоры книг",
+    blog2Title: "10 обязательных книг 2025 года",
+    blog2Meta: "Майкл Чен • 8 мин чтения",
+    blog2Text: "Подборка самых значимых книг года.",
+    blog2Button: "Читать статью",
+    badge3: "Искусство письма",
+    blog3Title: "Советы для эффективного чтения",
+    blog3Meta: "Эмма Уотсон • 6 мин чтения",
+    blog3Text: "Практические советы для лучшего понимания и запоминания прочитанного.",
+    blog3Button: "Читать статью",
+    badge4: "Литературный анализ",
+    blog4Title: "Понимание классической литературы",
+    blog4Meta: "Дэвид Ким • 10 мин чтения",
+    blog4Text: "Анализ вечных тем и методов классической литературы.",
+    blog4Button: "Читать статью",
+    aboutTitle: "О Digital Reads",
+    aboutLead: "Даем читателям доступ к знаниям во всем мире",
+    missionTitle: "Наша Миссия",
+    missionText: "Digital Reads — инновационная онлайн-библиотека, призванная развивать любовь к чтению. Мы стремимся сделать знания доступными для каждого.",
+    visionTitle: "Наше Видение",
+    visionText: "Стать ведущей цифровой библиотекой мира, объединяющей миллионы читателей и мыслищих людей.",
+    faqTitle: "Часто задаваемые вопросы"
+  },
+  ENG: {
+    heroTitle: "Welcome to Digital Reads",
+    heroLead: "Your modern gateway to endless knowledge and literary adventures",
+    booksAvailableLabel: "Books Available",
+    eventsHostedLabel: "Events Hosted",
+    activeMembersLabel: "Active Members",
+    featuredBooksTitle: "Featured Books",
+     blogTitle: "Blog & Reading Insights",
+    blogLead: "Expert opinions, reading tips, and literary analysis",
+    badge1: "Reading Tips",
+    catalogTitle: "Book Catalog",
+    searchBooks: "🔍 Search books by title or author...",
+    featuredBooksTitle: "Featured Books",
+    badge1: "Classic",
+    title1: "The Great Gatsby",
+    author1: "by F. Scott Fitzgerald",
+    readBtn1: "📖 Read Book",
+    badge2: "Dystopian",
+    title2: "1984",
+    author2: "by George Orwell",
+    readBtn2: "📖 Read Book",
+    badge3: "Classic",
+    title3: "To Kill a Mockingbird",
+    author3: "by Harper Lee",
+    readBtn3: "📖 Read Book",
+    badge4: "Romance",
+    title4: "Pride and Prejudice",
+    author4: "by Jane Austen",
+    readBtn4: "📖 Read Book",
+    badge5: "Coming-of-age",
+    title5: "The Catcher in the Rye",
+    author5: "by J.D. Salinger",
+    readBtn5: "📖 Read Book",
+    badge6: "Fantasy",
+    title6: "The Hobbit",
+    author6: "by J.R.R. Tolkien",
+    readBtn6: "📖 Read Book",
+    detailsInstruction: "Click on a book to see details",
+    blog1Title: "The Future of Digital Libraries",
+    blog1Meta: "By Sarah Johnson • 5 min read",
+    blog1Text: "Exploring how technology is transforming the way we discover, read, and share books in the digital age. From AI recommendations to virtual book clubs.",
+    blog1Button: "Read Article",
+    badge2: "Book Reviews",
+    blog2Title: "10 Must-Read Books of 2025",
+    blog2Meta: "By Michael Chen • 8 min read",
+    blog2Text: "Our curated selection of the year's most impactful reads, spanning fiction, non-fiction, and everything in between.",
+    blog2Button: "Read Article",
+    badge3: "Writing Craft",
+    blog3Title: "Tips for Effective Reading",
+    blog3Meta: "By Emma Watson • 6 min read",
+    blog3Text: "Practical advice to improve your reading comprehension, retention, and overall enjoyment whether you're reading for pleasure or learning.",
+    blog3Button: "Read Article",
+    badge4: "Literary Analysis",
+    blog4Title: "Understanding Classic Literature",
+    blog4Meta: "By David Kim • 10 min read",
+    blog4Text: "A deep dive into the enduring themes and techniques that make classic literature timeless and relevant to modern readers.",
+    blog4Button: "Read Article",
+    aboutTitle: "About Digital Reads",
+    aboutLead: "Empowering readers worldwide with digital access to knowledge",
+    missionTitle: "Our Mission",
+    missionText: "Digital Reads is an innovative online library platform designed to foster a love for reading through interactive features, community discussions, and curated book collections. We believe in making knowledge accessible to everyone, everywhere.",
+    visionTitle: "Our Vision",
+    visionText: "To become the world's leading digital library platform, connecting millions of readers with the books they love while building a vibrant community of learners and thinkers.",
+    faqTitle: "Frequently Asked Questions",
+     eventsTitle: "[translate:Предстоящие события]",
+    eventsLead: "[translate:Присоединяйтесь к нашим мероприятиям и знакомьтесь с читателями]",
+    eventBadge1: "[translate:Встреча с автором]",
+    eventTitle1: "[translate:Встреча с автором: Цифровой читатель]",
+    eventDate1: "[translate:📅 15 ноября 2025 • 🕕 18:00 EST]",
+    eventText1: "[translate:Интерактивная сессия с бестселлером Джейн Доу о цифровых чтениях и её новом романе \"Connected Pages\".]",
+    eventBtn1: "[translate:Зарегистрироваться]",
+    eventBadge2: "[translate:Книжный клуб]",
+    eventTitle2: "[translate:Виртуальный книжный клуб: Ноябрь]",
+    eventDate2: "[translate:📅 25 ноября 2025 • 🕖 19:00 EST]",
+    eventText2: "[translate:Обсудите книгу \"The Art of Reading\" вместе с критиком!] ",
+    eventBtn2: "[translate:Присоединиться]",
+    eventBadge3: "[translate:Мастер-класс]",
+    eventTitle3: "[translate:Мастер-класс по творческому письму]",
+    eventDate3: "[translate:📅 5 декабря 2025 • 🕔 17:00 EST]",
+    eventText3: "[translate:Изучите основы повествования и создания персонажей.]",
+    eventBtn3: "[translate:Записаться]",
+    eventBadge4: "[translate:Общественное мероприятие]",
+    eventTitle4: "[translate:Годовой читательский челлендж]",
+    eventDate4: "[translate:📅 1-31 декабря 2025 • Весь день]",
+    eventText4: "[translate:Участвуйте в ежегодном марафоне чтения! Ставьте цели, следите за прогрессом.]",
+    eventBtn4: "[translate:Принять вызов]",
+    eventBadge5: "[translate:Искусство и литература]",
+    eventTitle5: "[translate:Конкурс обложек книг]",
+    eventDate5: "[translate:📅 10 декабря 2025 • 🕕 18:30 EST]",
+    eventText5: "[translate:Профессиональные дизайнеры расскажут о своем творчестве.]",
+    eventBtn5: "[translate:Зарегистрироваться]",
+    eventBadge6: "[translate:Глобальное чтение]",
+    eventTitle6: "[translate:Фестиваль мировой литературы]",
+    eventDate6: "[translate:📅 15-17 декабря 2025 • Разное время]",
+    eventText6: "[translate:Трехдневный фестиваль мировой литературы с участием авторов, переводчиков и читателей.]",
+    eventBtn6: "[translate:Расписание]",
+    eventsTitle: "Upcoming Events",
+    eventsLead: "Join our community events and connect with fellow readers",
+    eventBadge1: "🎤 Author Talk",
+    eventTitle1: "Author Talk: The Digital Reader",
+    eventDate1: "📅 November 15, 2025 • 🕕 6:00 PM EST",
+    eventText1: "An interactive session with bestselling author Jane Doe discussing the evolution of digital reading habits and her latest novel \"Connected Pages\".",
+    eventBtn1: "Register Now",
+    eventBadge2: "📖 Book Club",
+    eventTitle2: "Virtual Book Club: November Edition",
+    eventDate2: "📅 November 25, 2025 • 🕖 7:00 PM EST",
+    eventText2: "Join our monthly discussion of \"The Art of Reading\" by renowned literary critic Marcus Williams. All members welcome!",
+    eventBtn2: "Join Discussion",
+    eventBadge3: "🎓 Workshop",
+    eventTitle3: "Creative Writing Workshop",
+    eventDate3: "📅 December 5, 2025 • 🕔 5:00 PM EST",
+    eventText3: "Learn the fundamentals of storytelling and character development with award-winning author Thomas Reed in this hands-on workshop.",
+    eventBtn3: "Sign Up",
+    eventBadge4: "🎉 Community Event",
+    eventTitle4: "Year-End Reading Challenge",
+    eventDate4: "📅 December 1-31, 2025 • All Day",
+    eventText4: "Participate in our annual reading challenge! Set your goals, track your progress, and win exciting prizes for completing milestones.",
+    eventBtn4: "Accept Challenge",
+    eventBadge5: "🎨 Art & Literature",
+    eventTitle5: "Book Cover Design Showcase",
+    eventDate5: "📅 December 10, 2025 • 🕕 6:30 PM EST",
+    eventText5: "Explore the intersection of visual art and literature with professional book cover designers sharing their creative process.",
+    eventBtn5: "RSVP",
+    eventBadge6: "🌍 Global Reading",
+    eventTitle6: "World Literature Festival",
+    eventDate6: "📅 December 15-17, 2025 • Various Times",
+    eventText6: "A three-day celebration of global literature featuring authors, translators, and readers from around the world.",
+    eventBtn6: "View Schedule"
+  }
+};
+
+// 🌍 Apply all translations automatically
+function applyTranslations(lang) {
+  const langObj = translations[lang];
+  if (!langObj) return;
+
+  // Loop through all keys in the selected language object
+  for (const key in langObj) {
+    const value = langObj[key];
+
+    // If an element has the same ID as the key
+    const el = document.getElementById(key);
+    if (el) {
+      el.textContent = value;
+      continue;
+    }
+
+    // If it's a placeholder field (like search inputs)
+    const inputEl = document.querySelector(`[data-translate="${key}"]`);
+    if (inputEl && inputEl.tagName === "INPUT") {
+      inputEl.placeholder = value;
+    }
+  }
+}
+
+// 🌐 Set and save selected language
+function setLanguage(lang) {
+  localStorage.setItem('digitalReadsLang', lang);
+  $('#langDropdown').html('🌐 ' + lang);
+  applyTranslations(lang);
+
+  if (typeof showToast === 'function') {
+    showToast('🌐 Language changed to: ' + lang);
+  }
+}
+
+// 🚀 Initialize on page load
+$(document).ready(function () {
+  // 1️⃣ Detect saved language or default to English
   const savedLang = localStorage.getItem('digitalReadsLang') || 'ENG';
   setLanguage(savedLang);
 
+  // 2️⃣ Listen for dropdown language change
   $('.lang-select').on('click', function (e) {
     e.preventDefault();
-    const lang = $(this).data('lang');
-    setLanguage(lang);
-    // Optionally, reload or trigger translation logic
+    setLanguage($(this).data('lang'));
   });
+});
+
