@@ -1,468 +1,747 @@
-$(document).ready(function () {
-  
-  // ========================================
-  // NAVBAR & SCROLL EFFECTS
-  // ========================================
-  
-  // Navbar shadow on scroll
-  $(window).on('scroll', function () {
-    if ($(window).scrollTop() > 10) {
-      $('.navbar').addClass('scrolled');
+// ========================================
+// MODERN JAVASCRIPT REWRITE - 2025
+// ========================================
+
+class LibraryManager {
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => this.setupApp());
     } else {
-      $('.navbar').removeClass('scrolled');
+      this.setupApp();
+    }
+  }
+
+  setupApp() {
+    this.setupScrollEffects();
+    this.setupDateTime();
+    this.setupAnimatedCounters();
+    this.setupDarkMode();
+    this.setupBookSearch();
+    this.setupEventHandlers();
+    this.setupLazyLoading();
+    this.loadUserBooks();
+  }
+
+  // ========================================
+  // SCROLL EFFECTS
+  // ========================================
+  
+  setupScrollEffects() {
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          this.handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
+  handleScroll() {
+    const navbar = document.querySelector('.navbar');
+    const scrollProgress = document.getElementById('scrollProgress');
+    
+    // Navbar shadow
+    if (window.scrollY > 10) {
+      navbar?.classList.add('scrolled');
+    } else {
+      navbar?.classList.remove('scrolled');
     }
     
-    // Scroll progress bar
-    const scrollTop = $(window).scrollTop();
-    const docHeight = $(document).height() - $(window).height();
-    const scrollPercent = (scrollTop / docHeight) * 100;
-    $('#scrollProgress').css('width', scrollPercent + '%');
-  });
-
-  $(document).on('click', '.read-book-btn', function(e) {
-  e.preventDefault();
-  const bookTitle = $(this).closest('.card').find('.card-title').text();
-  showToast(`📖 Opening "${bookTitle}"...`);
-  
-  // Simulate opening book (you can redirect to a reading page)
-  setTimeout(() => {
-    showToast(`✨ Enjoy reading "${bookTitle}"!`);
-  }, 1000);
-});
-
-// Subscribe button handler
-$('#subscribeBtn').on('click', function() {
-  const modal = new bootstrap.Modal(document.getElementById('subscribeModal'));
-  modal.show();
-});
-
-// Subscribe form submission
-$('#subscribeForm').on('submit', function(e) {
-  e.preventDefault();
-  const email = $('#subscriberEmail').val();
-  
-  if (email) {
-    showToast('✅ Successfully subscribed to newsletter!');
-    $('#subscribeModal').modal('hide');
-    this.reset();
+    // Progress bar
+    if (scrollProgress) {
+      const scrollTop = window.pageYOffset;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+      scrollProgress.style.width = `${scrollPercent}%`;
+    }
   }
-});
 
-// Event registration buttons
-$(document).on('click', '.btn-primary', function(e) {
-  const btnText = $(this).text().trim();
-  
-  if (btnText.includes('Register') || btnText.includes('Join') || btnText.includes('Sign Up') || btnText.includes('RSVP')) {
-    e.preventDefault();
-    showToast('✅ Successfully registered for the event!');
-  }
-  
-  if (btnText.includes('Read More') || btnText.includes('Read Article')) {
-    e.preventDefault();
-    showToast('📰 Loading article...');
-  }
-});
   // ========================================
-  // DATE & TIME DISPLAY
+  // DATE & TIME
   // ========================================
   
-  function updateDateTime() {
-    const now = new Date();
-    const options = { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
+  setupDateTime() {
+    const dateTimeElement = document.getElementById('currentDateTime');
+    if (!dateTimeElement) return;
+
+    const updateTime = () => {
+      const now = new Date();
+      const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      };
+      dateTimeElement.innerHTML = `📅 ${now.toLocaleDateString('en-US', options)}`;
     };
-    const formatted = now.toLocaleDateString('en-US', options);
-    $('#currentDateTime').html(`📅 ${formatted}`);
-  }
-  
-  if ($('#currentDateTime').length) {
-    updateDateTime();
-    setInterval(updateDateTime, 1000);
+
+    updateTime();
+    this.dateTimeInterval = setInterval(updateTime, 1000);
   }
 
-  
   // ========================================
   // ANIMATED COUNTERS
   // ========================================
   
-  $('.counter').each(function () {
-    const $this = $(this);
-    const countTo = $this.data('count');
+  setupAnimatedCounters() {
+    const counters = document.querySelectorAll('.counter');
     
-    $({ Counter: 0 }).animate(
-      { Counter: countTo },
-      {
-        duration: 2500,
-        easing: 'swing',
-        step: function (now) {
-          $this.text(Math.ceil(now).toLocaleString());
-        }
-      }
-    );
-  });
+    const animateCounter = (element) => {
+      const target = parseInt(element.dataset.count);
+      const duration = 2500;
+      const increment = target / (duration / 16); // 60fps
+      let current = 0;
 
-  
+      const updateCounter = () => {
+        current += increment;
+        if (current < target) {
+          element.textContent = Math.ceil(current).toLocaleString();
+          requestAnimationFrame(updateCounter);
+        } else {
+          element.textContent = target.toLocaleString();
+        }
+      };
+
+      updateCounter();
+    };
+
+    // Use Intersection Observer for better performance
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    counters.forEach(counter => observer.observe(counter));
+  }
+
   // ========================================
-  // DARK MODE TOGGLE
+  // DARK MODE
   // ========================================
   
-  $('#toggleDarkModeBtn, #modeToggle').on('click change', function () {
-    $('body').toggleClass('dark-mode');
-    const isDark = $('body').hasClass('dark-mode');
-    localStorage.setItem('digitalReadsTheme', isDark ? 'dark' : 'light');
+  setupDarkMode() {
+    const toggleButtons = document.querySelectorAll('#toggleDarkModeBtn, #modeToggle');
     
-    // Update button text
-    if ($('#toggleDarkModeBtn').length) {
-      $('#toggleDarkModeBtn').text(isDark ? '☀️ Toggle Light Mode' : '🌙 Toggle Dark Mode');
+    // Load saved theme
+    const savedTheme = localStorage.getItem('digitalReadsTheme');
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark-mode');
+      const checkbox = document.getElementById('modeToggle');
+      if (checkbox) checkbox.checked = true;
+      this.updateDarkModeButton(true);
     }
+
+    toggleButtons.forEach(button => {
+      button.addEventListener('click', (e) => this.toggleDarkMode(e));
+      if (button.type === 'checkbox') {
+        button.addEventListener('change', (e) => this.toggleDarkMode(e));
+      }
+    });
+  }
+
+  toggleDarkMode(e) {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
     
-    showToast(isDark ? '🌙 Dark mode enabled' : '☀️ Light mode enabled');
-  });
-  
-  // Load saved theme
-  if (localStorage.getItem('digitalReadsTheme') === 'dark') {
-    $('body').addClass('dark-mode');
-    $('#modeToggle').prop('checked', true);
-    if ($('#toggleDarkModeBtn').length) {
-      $('#toggleDarkModeBtn').text('☀️ Toggle Light Mode');
+    localStorage.setItem('digitalReadsTheme', isDark ? 'dark' : 'light');
+    this.updateDarkModeButton(isDark);
+    this.showToast(isDark ? '🌙 Dark mode enabled' : '☀️ Light mode enabled');
+  }
+
+  updateDarkModeButton(isDark) {
+    const button = document.getElementById('toggleDarkModeBtn');
+    if (button) {
+      button.textContent = isDark ? '☀️ Toggle Light Mode' : '🌙 Toggle Dark Mode';
     }
   }
 
-  
-  // ========================================
-  // COPY TO CLIPBOARD
-  // ========================================
-  
-  $('.copy-quote').on('click', function () {
-    const quote = $(this).data('quote');
-    navigator.clipboard.writeText(quote).then(() => {
-      showToast('📋 Quote copied to clipboard!');
-    }).catch(() => {
-      showToast('❌ Failed to copy quote');
-    });
-  });
-
-  
   // ========================================
   // TOAST NOTIFICATIONS
   // ========================================
   
-  function showToast(message) {
-    // Remove existing toasts
-    $('.custom-toast').remove();
+  showToast(message) {
+    // Remove existing toast
+    const existingToast = document.querySelector('.custom-toast');
+    if (existingToast) existingToast.remove();
     
-    const toast = $(`
-      <div class="custom-toast" style="
-        position: fixed;
-        top: 90px;
-        right: 20px;
-        background: var(--card-bg);
-        color: var(--text-color);
-        padding: 1rem 1.5rem;
-        border-radius: 12px;
-        box-shadow: var(--shadow-hover);
-        z-index: 9999;
-        animation: slideInRight 0.3s ease;
-        border-left: 4px solid;
-        border-image: var(--gradient) 1;
-      ">${message}</div>
-    `);
+    const toast = document.createElement('div');
+    toast.className = 'custom-toast';
+    toast.innerHTML = message;
     
-    $('body').append(toast);
+    Object.assign(toast.style, {
+      position: 'fixed',
+      top: '90px',
+      right: '20px',
+      background: 'var(--card-bg)',
+      color: 'var(--text-color)',
+      padding: '1rem 1.5rem',
+      borderRadius: '12px',
+      boxShadow: 'var(--shadow-hover)',
+      zIndex: '9999',
+      animation: 'slideInRight 0.3s ease',
+      borderLeft: '4px solid',
+      borderImage: 'var(--gradient) 1'
+    });
+    
+    // Add ARIA attributes for accessibility
+    toast.setAttribute('role', 'alert');
+    toast.setAttribute('aria-live', 'polite');
+    
+    document.body.appendChild(toast);
     
     setTimeout(() => {
-      toast.fadeOut(300, function() {
-        $(this).remove();
-      });
+      toast.style.opacity = '0';
+      toast.style.transition = 'opacity 0.3s';
+      setTimeout(() => toast.remove(), 300);
     }, 3000);
   }
 
-  
   // ========================================
   // BOOK SEARCH & AUTOCOMPLETE
   // ========================================
   
-  $('#searchBooks').on('input', function () {
-    const searchTerm = $(this).val().toLowerCase();
-    const $autocompleteList = $('#autocompleteList');
+  setupBookSearch() {
+    const searchInput = document.getElementById('searchBooks');
+    const autocompleteList = document.getElementById('autocompleteList');
     
-    // Clear autocomplete
-    $autocompleteList.empty();
-    
-    if (searchTerm.length > 0) {
-      const matches = [];
-      
-      $('.book-item').each(function () {
-        const title = $(this).data('title').toLowerCase();
-        const author = $(this).data('author').toLowerCase();
-        
-        if (title.includes(searchTerm) || author.includes(searchTerm)) {
-          $(this).show();
-          matches.push({
-            title: $(this).data('title'),
-            author: $(this).data('author')
-          });
-        } else {
-          $(this).hide();
-        }
-      });
-      
-      // Show autocomplete suggestions
-      if (matches.length > 0 && matches.length < 5) {
-        matches.forEach(match => {
-          $autocompleteList.append(`
-            <button class="list-group-item list-group-item-action autocomplete-item" 
-              data-title="${match.title}">
-              ${match.title} <small class="text-muted">by ${match.author}</small>
-            </button>
-          `);
-        });
-      }
-    } else {
-      $('.book-item').show();
-    }
-  });
-  
-  // Autocomplete item click
-  $(document).on('click', '.autocomplete-item', function () {
-    const title = $(this).data('title');
-    $('#searchBooks').val(title);
-    $('#autocompleteList').empty();
-    $('.book-item').hide();
-    $(`.book-item[data-title="${title}"]`).show();
-  });
-  
-  // Close autocomplete when clicking outside
-  $(document).on('click', function (e) {
-    if (!$(e.target).closest('#searchBooks, #autocompleteList').length) {
-      $('#autocompleteList').empty();
-    }
-  });
+    if (!searchInput) return;
 
-  
-  // ========================================
-  // ADD BOOK FORM (My Books Page)
-  // ========================================
-  
-  $('#addBookForm').on('submit', function (e) {
-    e.preventDefault();
+    // Debounce search input
+    let searchTimeout;
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => this.performSearch(e.target.value), 300);
+    });
+
+    // Handle autocomplete clicks
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('autocomplete-item')) {
+        const title = e.target.dataset.title;
+        searchInput.value = title;
+        autocompleteList.innerHTML = '';
+        this.filterBooks(title);
+      } else if (!e.target.closest('#searchBooks, #autocompleteList')) {
+        autocompleteList.innerHTML = '';
+      }
+    });
+
+    // Keyboard navigation for autocomplete
+    searchInput.addEventListener('keydown', (e) => this.handleAutocompleteKeys(e));
+  }
+
+  performSearch(searchTerm) {
+    const bookItems = document.querySelectorAll('.book-item');
+    const autocompleteList = document.getElementById('autocompleteList');
     
-    const title = $('#bookTitle').val().trim();
-    const author = $('#bookAuthor').val().trim();
+    if (!autocompleteList) return;
     
-    if (!title || !author) {
-      showToast('❌ Please fill in all fields');
+    autocompleteList.innerHTML = '';
+    const term = searchTerm.toLowerCase().trim();
+
+    if (term.length === 0) {
+      bookItems.forEach(item => item.style.display = '');
       return;
     }
-    
-    // Show spinner
-    $('#addBookText').addClass('d-none');
-    $('#addBookSpinner').removeClass('d-none');
-    
-    // Simulate API call
-    setTimeout(() => {
-      // Hide empty message if exists
-      $('#userBooks .col-12').remove();
+
+    const matches = [];
+    bookItems.forEach(item => {
+      const title = item.dataset.title?.toLowerCase() || '';
+      const author = item.dataset.author?.toLowerCase() || '';
       
-      // Add book card
-      const bookCard = $(`
-        <div class="col-md-4">
-          <div class="card" style="animation-delay: 0s;">
-            <div class="card-body">
-              <h5 class="card-title">${title}</h5>
-              <p class="card-text text-muted">by ${author}</p>
-              <button class="btn btn-sm btn-outline-danger remove-book">Remove</button>
-            </div>
-          </div>
-        </div>
-      `);
-      
-      $('#userBooks').append(bookCard);
-      
-      // Reset form
-      this.reset();
-      $('#addBookText').removeClass('d-none');
-      $('#addBookSpinner').addClass('d-none');
-      
-      showToast('✅ Book added successfully!');
-    }, 1000);
-  });
+      if (title.includes(term) || author.includes(term)) {
+        item.style.display = '';
+        matches.push({
+          title: item.dataset.title,
+          author: item.dataset.author
+        });
+      } else {
+        item.style.display = 'none';
+      }
+    });
+
+    // Show autocomplete (max 5 items)
+    if (matches.length > 0 && matches.length <= 5) {
+      matches.forEach(match => {
+        const button = document.createElement('button');
+        button.className = 'list-group-item list-group-item-action autocomplete-item';
+        button.dataset.title = match.title;
+        button.innerHTML = `${match.title} <small class="text-muted">by ${match.author}</small>`;
+        autocompleteList.appendChild(button);
+      });
+    }
+  }
+
+  handleAutocompleteKeys(e) {
+    const items = document.querySelectorAll('.autocomplete-item');
+    if (items.length === 0) return;
+
+    const active = document.querySelector('.autocomplete-item.active');
+    let index = Array.from(items).indexOf(active);
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      index = (index + 1) % items.length;
+      items.forEach(item => item.classList.remove('active'));
+      items[index].classList.add('active');
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      index = index <= 0 ? items.length - 1 : index - 1;
+      items.forEach(item => item.classList.remove('active'));
+      items[index].classList.add('active');
+    } else if (e.key === 'Enter' && active) {
+      e.preventDefault();
+      active.click();
+    }
+  }
+
+  filterBooks(title) {
+    const bookItems = document.querySelectorAll('.book-item');
+    bookItems.forEach(item => {
+      item.style.display = item.dataset.title === title ? '' : 'none';
+    });
+  }
+
+  // ========================================
+  // EVENT HANDLERS (Delegation)
+  // ========================================
   
-  // Remove book
-  $(document).on('click', '.remove-book', function () {
-    $(this).closest('.col-md-4').fadeOut(300, function() {
-      $(this).remove();
+  setupEventHandlers() {
+    // Use event delegation for all dynamic elements
+    document.addEventListener('click', (e) => {
+      const target = e.target;
       
-      // Show empty message if no books
-      if ($('#userBooks').children().length === 0) {
-        $('#userBooks').html(`
+      // Read book button
+      if (target.classList.contains('read-book-btn') || target.closest('.read-book-btn')) {
+        e.preventDefault();
+        this.handleReadBook(target.closest('.read-book-btn') || target);
+      }
+
+      // Remove book button
+      if (target.classList.contains('remove-book')) {
+        this.handleRemoveBook(target);
+      }
+
+      // Copy quote button
+      if (target.classList.contains('copy-quote')) {
+        this.handleCopyQuote(target);
+      }
+
+      // Subscribe button
+      if (target.id === 'subscribeBtn') {
+        this.handleSubscribe();
+      }
+
+      // Event registration buttons
+      if (target.classList.contains('btn-primary')) {
+        this.handleEventButton(target, e);
+      }
+    });
+
+    // Form submissions
+    this.setupFormHandlers();
+  }
+
+  handleReadBook(button) {
+    const card = button.closest('.card');
+    if (!card) return;
+
+    const title = card.querySelector('.card-title')?.textContent.trim() || '';
+    const authorEl = card.querySelector('.card-text.small');
+    const author = authorEl ? authorEl.textContent.replace('by ', '').trim() : '';
+    const image = card.querySelector('img')?.src || '';
+
+    const book = {
+      title,
+      author,
+      image,
+      dateAdded: new Date().toISOString()
+    };
+
+    // Sanitize and save
+    const sanitizedBook = this.sanitizeBookData(book);
+    const myBooks = this.getFromStorage('myBooks') || [];
+    
+    const exists = myBooks.some(b => 
+      b.title === sanitizedBook.title && b.author === sanitizedBook.author
+    );
+
+    if (!exists) {
+      myBooks.push(sanitizedBook);
+      this.saveToStorage('myBooks', myBooks);
+      this.showToast(`✅ "${title}" added to My Books!`);
+    } else {
+      this.showToast(`📚 "${title}" is already in your library!`);
+    }
+
+    setTimeout(() => {
+      this.showToast(`📖 Opening "${title}"...`);
+    }, 1500);
+  }
+
+  handleRemoveBook(button) {
+    const bookCard = button.closest('.col-md-4');
+    if (!bookCard) return;
+
+    bookCard.style.opacity = '0';
+    bookCard.style.transition = 'opacity 0.3s';
+    
+    setTimeout(() => {
+      bookCard.remove();
+      
+      const userBooks = document.getElementById('userBooks');
+      if (userBooks && userBooks.children.length === 0) {
+        userBooks.innerHTML = `
           <div class="col-12 text-center text-muted">
             <p>No books added yet. Start building your collection!</p>
           </div>
-        `);
+        `;
       }
-    });
-    showToast('🗑️ Book removed');
-  });
+    }, 300);
+    
+    this.showToast('🗑️ Book removed');
+  }
 
-  
+  handleCopyQuote(button) {
+    const quote = button.dataset.quote;
+    if (!quote) return;
+
+    navigator.clipboard.writeText(quote)
+      .then(() => this.showToast('📋 Quote copied to clipboard!'))
+      .catch(() => this.showToast('❌ Failed to copy quote'));
+  }
+
+  handleSubscribe() {
+    const modalEl = document.getElementById('subscribeModal');
+    if (modalEl && typeof bootstrap !== 'undefined') {
+      const modal = new bootstrap.Modal(modalEl);
+      modal.show();
+    }
+  }
+
+  handleEventButton(button, e) {
+    const btnText = button.textContent.trim();
+    
+    if (/Register|Join|Sign Up|RSVP/.test(btnText)) {
+      e.preventDefault();
+      this.showToast('✅ Successfully registered for the event!');
+    }
+    
+    if (/Read More|Read Article/.test(btnText)) {
+      e.preventDefault();
+      this.showToast('📰 Loading article...');
+    }
+  }
+
   // ========================================
-  // REGISTRATION FORM VALIDATION
+  // FORM HANDLERS
   // ========================================
   
-  $('#registrationForm').on('submit', function (e) {
+  setupFormHandlers() {
+    // Add book form
+    const addBookForm = document.getElementById('addBookForm');
+    if (addBookForm) {
+      addBookForm.addEventListener('submit', (e) => this.handleAddBook(e));
+    }
+
+    // Registration form
+    const registrationForm = document.getElementById('registrationForm');
+    if (registrationForm) {
+      registrationForm.addEventListener('submit', (e) => this.handleRegistration(e));
+    }
+
+    // Subscribe form
+    const subscribeForm = document.getElementById('subscribeForm');
+    if (subscribeForm) {
+      subscribeForm.addEventListener('submit', (e) => this.handleSubscribeForm(e));
+    }
+  }
+
+  handleAddBook(e) {
     e.preventDefault();
     
-    const form = this;
-    const email = $('#email').val();
-    const password = $('#password').val();
-    const confirmPassword = $('#confirmPassword').val();
-    
-    // Clear previous validation
-    $(form).removeClass('was-validated');
-    $('.is-invalid').removeClass('is-invalid');
-    
-    let isValid = true;
-    
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      $('#email').addClass('is-invalid');
-      isValid = false;
-    }
-    
-    // Password validation
-    if (password.length < 6) {
-      $('#password').addClass('is-invalid');
-      isValid = false;
-    }
-    
-    // Confirm password validation
-    if (password !== confirmPassword) {
-      $('#confirmPassword').addClass('is-invalid');
-      $('#confirmPassword').siblings('.invalid-feedback').text('Passwords must match');
-      isValid = false;
-    }
-    
-    if (!isValid) {
-      showToast('❌ Please fix the errors in the form');
+    const form = e.target;
+    const title = document.getElementById('bookTitle')?.value.trim() || '';
+    const author = document.getElementById('bookAuthor')?.value.trim() || '';
+
+    // Validation
+    if (title.length < 2) {
+      this.showToast('❌ Title must be at least 2 characters');
       return;
     }
+
+    if (author.length < 2) {
+      this.showToast('❌ Author name must be at least 2 characters');
+      return;
+    }
+
+    // Check duplicates
+    const myBooks = this.getFromStorage('myBooks') || [];
+    if (myBooks.some(b => b.title.toLowerCase() === title.toLowerCase())) {
+      this.showToast('⚠️ This book is already in your library');
+      return;
+    }
+
+    // Show loading state
+    const submitButton = form.querySelector('button[type="submit"]');
+    const buttonText = submitButton?.querySelector('#addBookText');
+    const spinner = submitButton?.querySelector('#addBookSpinner');
     
-    // Show spinner
-    $('#registerText').addClass('d-none');
-    $('#registerSpinner').removeClass('d-none');
+    if (buttonText) buttonText.classList.add('d-none');
+    if (spinner) spinner.classList.remove('d-none');
+
+    // Simulate API call
+    setTimeout(() => {
+      const userBooks = document.getElementById('userBooks');
+      
+      // Remove empty message
+      const emptyMessage = userBooks?.querySelector('.col-12');
+      if (emptyMessage) emptyMessage.remove();
+
+      // Add book card
+      if (userBooks) {
+        const bookCard = this.createBookCard(title, author);
+        userBooks.insertAdjacentHTML('beforeend', bookCard);
+      }
+
+      // Reset form
+      form.reset();
+      if (buttonText) buttonText.classList.remove('d-none');
+      if (spinner) spinner.classList.add('d-none');
+
+      this.showToast('✅ Book added successfully!');
+    }, 1000);
+  }
+
+  createBookCard(title, author) {
+    const escapedTitle = this.escapeHtml(title);
+    const escapedAuthor = this.escapeHtml(author);
     
+    return `
+      <div class="col-md-4">
+        <div class="card" style="animation-delay: 0s;">
+          <div class="card-body">
+            <h5 class="card-title">${escapedTitle}</h5>
+            <p class="card-text text-muted">by ${escapedAuthor}</p>
+            <button class="btn btn-sm btn-outline-danger remove-book">Remove</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  handleRegistration(e) {
+    e.preventDefault();
+    
+    const form = e.target;
+    const email = document.getElementById('email')?.value || '';
+    const password = document.getElementById('password')?.value || '';
+    const confirmPassword = document.getElementById('confirmPassword')?.value || '';
+
+    // Clear previous validation
+    form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+
+    let isValid = true;
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailInput = document.getElementById('email');
+    if (!emailRegex.test(email)) {
+      emailInput?.classList.add('is-invalid');
+      isValid = false;
+    }
+
+    // Password validation
+    const passwordInput = document.getElementById('password');
+    if (password.length < 6) {
+      passwordInput?.classList.add('is-invalid');
+      isValid = false;
+    }
+
+    // Confirm password
+    const confirmInput = document.getElementById('confirmPassword');
+    if (password !== confirmPassword) {
+      confirmInput?.classList.add('is-invalid');
+      const feedback = confirmInput?.nextElementSibling;
+      if (feedback) feedback.textContent = 'Passwords must match';
+      isValid = false;
+    }
+
+    if (!isValid) {
+      this.showToast('❌ Please fix the errors in the form');
+      return;
+    }
+
+    // Show loading state
+    const registerText = document.getElementById('registerText');
+    const registerSpinner = document.getElementById('registerSpinner');
+    
+    if (registerText) registerText.classList.add('d-none');
+    if (registerSpinner) registerSpinner.classList.remove('d-none');
+
     // Simulate registration
     setTimeout(() => {
-      $('#registerText').removeClass('d-none');
-      $('#registerSpinner').addClass('d-none');
-      $('#registrationSuccess').removeClass('d-none');
+      if (registerText) registerText.classList.remove('d-none');
+      if (registerSpinner) registerSpinner.classList.add('d-none');
+      
+      const successMsg = document.getElementById('registrationSuccess');
+      if (successMsg) successMsg.classList.remove('d-none');
+      
       form.reset();
-      showToast('✅ Registration successful!');
+      this.showToast('✅ Registration successful!');
     }, 2000);
-  });
-
-  
-  // ========================================
-  // LAZY LOADING IMAGES
-  // ========================================
-  
-  if ('loading' in HTMLImageElement.prototype) {
-    // Browser supports lazy loading
-    const images = document.querySelectorAll('img[loading="lazy"]');
-    images.forEach(img => {
-      img.src = img.src;
-    });
-  } else {
-    // Fallback for browsers that don't support lazy loading
-    const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js';
-    document.body.appendChild(script);
   }
 
-});
-
-// ========================================
-// READ BOOK FUNCTIONALITY - AUTO ADD TO MY BOOKS
-// ========================================
-
-$(document).on('click', '.read-book-btn', function(e) {
-  e.preventDefault();
-  
-  // Get book details from the card
-  const $card = $(this).closest('.card');
-  const bookTitle = $card.find('.card-title').text().trim();
-  const bookAuthor = $card.find('.card-text.small').text().replace('by ', '').trim();
-  const bookImage = $card.find('img').attr('src');
-  
-  // Create book object
-  const book = {
-    title: bookTitle,
-    author: bookAuthor,
-    image: bookImage,
-    dateAdded: new Date().toISOString()
-  };
-  
-  // Get existing books from localStorage
-  let myBooks = JSON.parse(localStorage.getItem('myBooks')) || [];
-  
-  // Check if book already exists
-  const bookExists = myBooks.some(b => b.title === bookTitle && b.author === bookAuthor);
-  
-  if (!bookExists) {
-    // Add book to array
-    myBooks.push(book);
+  handleSubscribeForm(e) {
+    e.preventDefault();
     
-    // Save to localStorage
-    localStorage.setItem('myBooks', JSON.stringify(myBooks));
+    const email = document.getElementById('subscriberEmail')?.value || '';
     
-    showToast(`✅ "${bookTitle}" added to My Books!`);
-  } else {
-    showToast(`📚 "${bookTitle}" is already in your library!`);
+    if (email) {
+      this.showToast('✅ Successfully subscribed to newsletter!');
+      
+      const modalEl = document.getElementById('subscribeModal');
+      if (modalEl && typeof bootstrap !== 'undefined') {
+        const modal = bootstrap.Modal.getInstance(modalEl);
+        modal?.hide();
+      }
+      
+      e.target.reset();
+    }
   }
+
+  // ========================================
+  // LOCAL STORAGE HELPERS
+  // ========================================
   
-  // Simulate opening reading mode
-  setTimeout(() => {
-    showToast(`📖 Opening "${bookTitle}"...`);
-  }, 1500);
-});
-// Make sure this function exists in script.js
-function showToast(message) {
-  $('.custom-toast').remove();
+  saveToStorage(key, data) {
+    try {
+      localStorage.setItem(key, JSON.stringify(data));
+      return true;
+    } catch (e) {
+      if (e.name === 'QuotaExceededError') {
+        this.showToast('❌ Storage limit exceeded');
+      } else {
+        this.showToast('❌ Failed to save data');
+      }
+      return false;
+    }
+  }
+
+  getFromStorage(key) {
+    try {
+      const data = localStorage.getItem(key);
+      return data ? JSON.parse(data) : null;
+    } catch (e) {
+      console.error('Failed to retrieve data:', e);
+      return null;
+    }
+  }
+
+  sanitizeBookData(book) {
+    return {
+      title: this.escapeHtml(book.title),
+      author: this.escapeHtml(book.author),
+      image: book.image,
+      dateAdded: book.dateAdded
+    };
+  }
+
+  escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // ========================================
+  // LOAD USER BOOKS
+  // ========================================
   
-  const toast = $(`
-    <div class="custom-toast" style="
-      position: fixed;
-      top: 90px;
-      right: 20px;
-      background: var(--card-bg);
-      color: var(--text-color);
-      padding: 1rem 1.5rem;
-      border-radius: 12px;
-      box-shadow: var(--shadow-hover);
-      z-index: 9999;
-      animation: slideInRight 0.3s ease;
-      border-left: 4px solid;
-      border-image: var(--gradient) 1;
-    ">${message}</div>
-  `);
-  
-  $('body').append(toast);
-  
-  setTimeout(() => {
-    toast.fadeOut(300, function() {
-      $(this).remove();
+  loadUserBooks() {
+    const userBooks = document.getElementById('userBooks');
+    if (!userBooks) return;
+
+    const myBooks = this.getFromStorage('myBooks') || [];
+    
+    if (myBooks.length === 0) return;
+
+    // Clear empty message
+    userBooks.innerHTML = '';
+
+    myBooks.forEach(book => {
+      const card = this.createBookCard(book.title, book.author);
+      userBooks.insertAdjacentHTML('beforeend', card);
     });
-  }, 3000);
+  }
+
+  // ========================================
+  // LAZY LOADING
+  // ========================================
+  
+  setupLazyLoading() {
+    if ('loading' in HTMLImageElement.prototype) {
+      // Native lazy loading supported
+      const images = document.querySelectorAll('img[loading="lazy"]');
+      images.forEach(img => {
+        if (!img.src && img.dataset.src) {
+          img.src = img.dataset.src;
+        }
+      });
+    } else {
+      // Fallback: Use Intersection Observer
+      this.setupLazyLoadingFallback();
+    }
+  }
+
+  setupLazyLoadingFallback() {
+    const images = document.querySelectorAll('img[data-src]');
+    
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+          img.removeAttribute('data-src');
+          observer.unobserve(img);
+        }
+      });
+    });
+
+    images.forEach(img => imageObserver.observe(img));
+  }
+
+  // ========================================
+  // CLEANUP
+  // ========================================
+  
+  destroy() {
+    if (this.dateTimeInterval) {
+      clearInterval(this.dateTimeInterval);
+    }
+  }
 }
 
-// Make it globally accessible
-window.showToast = showToast;
+// Initialize the app
+const libraryManager = new LibraryManager();
 
+// Make showToast globally accessible for compatibility
+window.showToast = (message) => libraryManager.showToast(message);
+
+// Cleanup on page unload
+window.addEventListener('beforeunload', () => {
+  libraryManager.destroy();
+});

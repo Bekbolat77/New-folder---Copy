@@ -28,6 +28,39 @@ $(document).ready(function() {
   
 });
 
+// Event delegation for dynamically added .read-book-btn
+$(document).on('click', '.read-book-btn', function(e) {
+  e.preventDefault();
+
+  // Get book info from button data attributes or DOM
+  const $btn = $(this);
+  const title = $btn.data('title');
+  const author = $btn.data('author');
+  // Try to get additional data from selected catalog card, if needed
+  const $selected = $('.book-card.selected').closest('.book-item');
+  const image = $selected.data('image') || '';
+  
+  // Optionally, you can also get description, year, genre, etc., for richer storage.
+  const book = {
+    title: title,
+    author: author,
+    image: image,
+    dateAdded: new Date().toISOString()
+  };
+
+  let myBooks = JSON.parse(localStorage.getItem('myBooks')) || [];
+  const bookExists = myBooks.some(b => b.title === book.title && b.author === book.author);
+
+  if (!bookExists) {
+    myBooks.push(book);
+    localStorage.setItem('myBooks', JSON.stringify(myBooks));
+    showToast('✅ Book added to My Books!');
+  } else {
+    showToast('📚 Book is already in your library!');
+  }
+});
+
+
 function displayBookDetails(book) {
   // Generate star rating
   const fullStars = Math.floor(book.rating);
