@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Books - Digital Reads</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">📚 Digital Reads</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About us</a></li>
+          <li class="nav-item"><a class="nav-link" href="books.html">Books</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="readDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Read</a>
+            <ul class="dropdown-menu" aria-labelledby="readDropdown">
+              <li><a class="dropdown-item active" href="my_books.html">My Books</a></li>
+              <li><a class="dropdown-item" href="talk.html">Talk</a></li>
+              <li><a class="dropdown-item" href="news.html">News</a></li>
+              <li><a class="dropdown-item" href="blog.html">Blog</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
+          <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div id="scrollProgress"></div>
+
+  <div class="container my-5">
+    <h1 class="mb-4">My Personal Library</h1>
+    
+    <!-- Add Book Form -->
+    <div class="card mb-5" style="animation: none; opacity: 1; transform: none;">
+      <div class="card-body">
+        <h3 class="mb-3">Add a Book Manually</h3>
+        <form id="addBookForm">
+          <div class="row g-3">
+            <div class="col-md-5">
+              <input type="text" id="bookTitle" class="form-control" placeholder="Book Title" required />
+            </div>
+            <div class="col-md-5">
+              <input type="text" id="bookAuthor" class="form-control" placeholder="Author Name" required />
+            </div>
+            <div class="col-md-2">
+              <button type="submit" class="btn btn-primary w-100">
+                <span id="addBookText">Add Book</span>
+                <span id="addBookSpinner" class="spinner-border spinner-border-sm d-none ms-2"></span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Book Count -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="mb-0">Your Collection (<span id="bookCount">0</span>)</h2>
+      <button id="clearAllBooks" class="btn btn-outline-danger">Clear All Books</button>
+    </div>
+
+    <!-- User Books Display -->
+    <div id="userBooks" class="row g-4">
+      <!-- Books will be loaded here from localStorage -->
+      <div class="col-12 text-center text-muted" id="emptyMessage">
+        <p>No books in your library yet. Start reading to build your collection!</p>
+      </div>
+    </div>
+  </div>
+
+ <footer>
+    <p>&copy; 2025 Digital Reads | Team: Nurassyl, Dias, Nurkhan, Bekbolat</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/my_books.js"></script>
+</body>
+</html>

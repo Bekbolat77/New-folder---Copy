@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Talk - Digital Reads</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">📚 Digital Reads</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="about.html">About us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="books.html">Books</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="readDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Read
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="readDropdown">
+            <li><a class="dropdown-item" href="my_books.html">My Books</a></li>
+            <li><a class="dropdown-item" href="talk.html">Talk</a></li>
+            <li><a class="dropdown-item" href="news.html">News</a></li>
+            <li><a class="dropdown-item" href="blog.html">Blog</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="events.html">Events</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="profile.html">Profile</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <div id="scrollProgress"></div>
+
+  <div class="container my-5">
+    <h1 class="mb-4">Discussion Board</h1>
+    <p class="lead text-muted mb-5">Join the conversation with fellow book lovers</p>
+
+    <!-- Discussion Topics -->
+    <div class="row g-4 mb-5">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">📖 What are you reading?</h4>
+            <p class="card-text text-muted">Share your current reads and get recommendations from the community.</p>
+            <small class="text-muted">152 replies • Last updated 2 hours ago</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">🎭 Classic vs Modern Literature</h4>
+            <p class="card-text text-muted">Debate the merits of timeless classics versus contemporary works.</p>
+            <small class="text-muted">89 replies • Last updated 5 hours ago</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">🔍 Mystery & Thriller Recommendations</h4>
+            <p class="card-text text-muted">Looking for your next page-turner? Get suggestions here.</p>
+            <small class="text-muted">234 replies • Last updated 1 day ago</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">💡 Book Club Ideas</h4>
+            <p class="card-text text-muted">Organize and discuss potential book club selections.</p>
+            <small class="text-muted">67 replies • Last updated 2 days ago</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Accordion -->
+    <h2 class="mb-4">Discussion Guidelines</h2>
+    <div class="accordion" id="talkFaqAccordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#talk1" aria-expanded="true">
+            How do I start a new discussion?
+          </button>
+        </h2>
+        <div id="talk1" class="accordion-collapse collapse show" data-bs-parent="#talkFaqAccordion">
+          <div class="accordion-body">
+            Click on any discussion topic or use the "New Discussion" button to create your own thread. Make sure your topic hasn't already been covered.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#talk2">
+            What are the community rules?
+          </button>
+        </h2>
+        <div id="talk2" class="accordion-collapse collapse" data-bs-parent="#talkFaqAccordion">
+          <div class="accordion-body">
+            Be respectful, stay on topic, avoid spoilers without warnings, and keep discussions constructive. Our community thrives on mutual respect.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#talk3">
+            Can I report inappropriate content?
+          </button>
+        </h2>
+        <div id="talk3" class="accordion-collapse collapse" data-bs-parent="#talkFaqAccordion">
+          <div class="accordion-body">
+            Yes! Use the report button on any post or comment that violates our community guidelines. Our moderators review all reports.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Digital Reads | Team: Nurassyl, Dias, Nurkhan, Bekbolat</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
