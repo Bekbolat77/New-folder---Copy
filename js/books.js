@@ -4,7 +4,7 @@
 
 $(document).ready(function() {
 
-  // 1️⃣ BOOK CLICK HANDLER — осында қалады
+  // 1️⃣ BOOK CLICK HANDLER 
   $('.book-item').on('click', function() {
     $('.book-card').removeClass('selected');
     $(this).find('.book-card').addClass('selected');
@@ -24,7 +24,7 @@ $(document).ready(function() {
     displayBookDetails(bookData);
   });
 
-  // 2️⃣ GOOGLE BOOKS API INTEGRATION — осында шығарып қою керек!
+  // 2️⃣ GOOGLE BOOKS API INTEGRATION 
   $('#searchBooks').on('input', async function () {
     const query = $(this).val().trim();
     if (query.length < 3) return;
