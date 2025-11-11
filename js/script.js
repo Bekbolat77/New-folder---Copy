@@ -25,8 +25,6 @@ class LibraryManager {
     this.setupEventHandlers();
     this.setupLazyLoading();
     this.loadUserBooks();
-    this.setupAuth();
-    this.loadEventButtonStates();
   }
 
   // ========================================
@@ -1118,4 +1116,320 @@ $(document).on('click', '.add-to-my-books-btn', function() {
     showToast('📚 Book is already in your library!');
   }
 });
+// ========================================
+// LIVE CHAT FUNCTIONALITY
+// ========================================
 
+$(document).ready(function() {
+  // Initialize chat only if we're on the talk page
+  if ($('#chatMessages').length) {
+    initLiveChat();
+  }
+});
+
+function initLiveChat() {
+  // Get or create user name
+  let userName = localStorage.getItem('chatUserName') || 'Guest_' + Math.floor(Math.random() * 10000);
+  if (!localStorage.getItem('chatUserName')) {
+    userName = prompt('Enter your name to join the chat:') || userName;
+    localStorage.setItem('chatUserName', userName);
+  }
+
+  // Load messages from localStorage
+  loadChatMessages();
+
+  // Character counter
+  $('#chatMessageInput').on('input', function() {
+    const length = $(this).val().length;
+    $('#charCount').text(length);
+    
+    // Update button state
+    if (length > 0) {
+      $('#sendChatBtn').prop('disabled', false);
+    } else {
+      $('#sendChatBtn').prop('disabled', true);
+    }
+  });
+
+  // Auto-resize textarea
+  function autoResizeTextarea() {
+    const textarea = $('#chatMessageInput')[0];
+    if (textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px';
+    }
+  }
+  
+  $('#chatMessageInput').on('input', autoResizeTextarea);
+  
+  // Initial resize
+  setTimeout(autoResizeTextarea, 100);
+
+  // Send message on form submit
+  $('#chatForm').on('submit', function(e) {
+    e.preventDefault();
+    sendMessage();
+  });
+
+  // Send message on Enter (but allow Shift+Enter for new line)
+  $('#chatMessageInput').on('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  // Simulate random messages occasionally (for demo purposes)
+  setInterval(function() {
+    // Very low chance to receive a message from another user (0.5% chance every 10 seconds)
+    if (Math.random() < 0.005) {
+      receiveRandomMessage();
+    }
+  }, 10000);
+}
+
+function sendMessage() {
+  const messageInput = $('#chatMessageInput');
+  const messageText = messageInput.val().trim();
+
+  if (!messageText) {
+    return;
+  }
+
+  const userName = localStorage.getItem('chatUserName') || 'Guest';
+  const message = {
+    text: messageText,
+    author: userName,
+    timestamp: new Date().toISOString(),
+    type: 'sent'
+  };
+
+  // Add message to chat
+  addMessageToChat(message);
+
+  // Save to localStorage
+  saveMessageToStorage(message);
+
+  // Clear input and reset height
+  messageInput.val('');
+  // Reset textarea height to min-height (120px from CSS)
+  messageInput.css('height', '120px');
+  $('#charCount').text('0');
+  $('#sendChatBtn').prop('disabled', true);
+
+  // Scroll to bottom
+  scrollChatToBottom();
+
+  // Show toast
+  if (typeof showToast === 'function') {
+    showToast('💬 Message sent!');
+  }
+}
+
+function receiveRandomMessage() {
+  const botNames = ['BookLover42', 'ReaderPro', 'NovelEnthusiast', 'PageTurner', 'LiteraryFan'];
+  const botMessages = [
+    'Has anyone read the latest bestseller?',
+    'I just finished an amazing book!',
+    'Looking for book recommendations...',
+    'What are you all reading this week?',
+    'Great discussion going on here!',
+    'Any fantasy book suggestions?',
+    'Classic literature is timeless!',
+    'Just joined the chat, hello everyone!'
+  ];
+
+  const message = {
+    text: botMessages[Math.floor(Math.random() * botMessages.length)],
+    author: botNames[Math.floor(Math.random() * botNames.length)],
+    timestamp: new Date().toISOString(),
+    type: 'received'
+  };
+
+  addMessageToChat(message);
+  saveMessageToStorage(message);
+  scrollChatToBottom();
+}
+
+function addMessageToChat(message) {
+  const chatMessages = $('#chatMessages');
+  
+  // Remove empty state if exists
+  chatMessages.find('.chat-empty-state').remove();
+
+  const time = new Date(message.timestamp);
+  const timeString = time.toLocaleTimeString('en-US', { 
+    hour: '2-digit', 
+    minute: '2-digit' 
+  });
+
+  // Get current user name
+  const currentUserName = localStorage.getItem('chatUserName') || '';
+  const isOwnMessage = message.author === currentUserName;
+
+  // Only show report button for messages from other users
+  const reportButtonHtml = !isOwnMessage ? `
+    <button class="btn-report-message" type="button" data-bs-toggle="modal" data-bs-target="#reportModal" data-reported-user="${escapeHtml(message.author)}" title="Report user for inappropriate action">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+        <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+      </svg>
+    </button>
+  ` : '';
+
+  const messageHtml = `
+    <div class="chat-message ${message.type}" data-author="${escapeHtml(message.author)}" data-timestamp="${message.timestamp}">
+      <div class="chat-message-info">
+        <span class="chat-message-author">${escapeHtml(message.author)}</span>
+        <span class="chat-message-time">${timeString}</span>
+        ${reportButtonHtml}
+      </div>
+      <div class="chat-message-bubble">
+        <div class="chat-message-text">${escapeHtml(message.text)}</div>
+      </div>
+    </div>
+  `;
+
+  chatMessages.append(messageHtml);
+}
+
+function loadChatMessages() {
+  const messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+  const chatMessages = $('#chatMessages');
+
+  if (messages.length === 0) {
+    // Show empty state initially
+    chatMessages.html(`
+      <div class="chat-empty-state">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+        <p>No messages yet. Start the conversation!</p>
+      </div>
+    `);
+    
+    // Add welcome message after a short delay
+    setTimeout(function() {
+      const welcomeMessage = {
+        text: 'Welcome to the live chat! Start a conversation with fellow book lovers. 📚',
+        author: 'Digital Reads Bot',
+        timestamp: new Date().toISOString(),
+        type: 'received'
+      };
+      addMessageToChat(welcomeMessage);
+      saveMessageToStorage(welcomeMessage);
+      scrollChatToBottom();
+    }, 1000);
+    return;
+  }
+
+  messages.forEach(message => {
+    addMessageToChat(message);
+  });
+
+  scrollChatToBottom();
+}
+
+function saveMessageToStorage(message) {
+  let messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+  messages.push(message);
+  
+  // Keep only last 100 messages to prevent storage issues
+  if (messages.length > 100) {
+    messages = messages.slice(-100);
+  }
+  
+  localStorage.setItem('chatMessages', JSON.stringify(messages));
+}
+
+function scrollChatToBottom() {
+  const chatMessages = $('#chatMessages');
+  chatMessages.scrollTop(chatMessages[0].scrollHeight);
+}
+
+function escapeHtml(text) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, m => map[m]);
+}
+
+// ========================================
+// REPORT USER FUNCTIONALITY
+// ========================================
+
+$(document).ready(function() {
+  // Handle report button click - populate modal with user name
+  $(document).on('click', '.btn-report-message', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const reportedUser = $(this).data('reported-user');
+    const currentUser = localStorage.getItem('chatUserName') || '';
+    
+    // Prevent users from reporting themselves
+    if (reportedUser === currentUser) {
+      showToast('❌ You cannot report yourself');
+      return;
+    }
+    
+    $('#reportedUserName').text(reportedUser);
+    $('#reportForm')[0].reset();
+    $('#reportModal').data('reported-user', reportedUser);
+  });
+
+  // Handle report form submission
+  $('#submitReportBtn').on('click', function() {
+    const reportedUser = $('#reportModal').data('reported-user');
+    const currentUser = localStorage.getItem('chatUserName') || '';
+    const reason = $('#reportReason').val();
+    const description = $('#reportDescription').val().trim();
+
+    // Double-check: prevent self-reporting
+    if (reportedUser === currentUser) {
+      showToast('❌ You cannot report yourself');
+      $('#reportModal').modal('hide');
+      return;
+    }
+
+    if (!reason) {
+      showToast('❌ Please select a reason for reporting');
+      $('#reportReason').focus();
+      return;
+    }
+
+    // Create report object
+    const report = {
+      reportedUser: reportedUser,
+      reason: reason,
+      description: description,
+      timestamp: new Date().toISOString(),
+      reporter: currentUser || 'Anonymous'
+    };
+
+    // Save report to localStorage
+    let reports = JSON.parse(localStorage.getItem('userReports')) || [];
+    reports.push(report);
+    localStorage.setItem('userReports', JSON.stringify(reports));
+
+    // Close modal
+    $('#reportModal').modal('hide');
+    
+    // Show success message
+    showToast('✅ Report submitted successfully. Thank you for helping keep our community safe!');
+    
+    // Reset form
+    $('#reportForm')[0].reset();
+  });
+
+  // Reset form when modal is closed
+  $('#reportModal').on('hidden.bs.modal', function() {
+    $('#reportForm')[0].reset();
+    $('#reportedUserName').text('');
+    $('#reportModal').removeData('reported-user');
+  });
+});
