@@ -1,3 +1,61 @@
+/*Profile Dark theme fix*/
+/* Dark Mode - Profile Page Specific Fixes */
+body.dark-mode .card-body p,
+body.dark-mode .card-body strong,
+body.dark-mode #profileName,
+body.dark-mode #profilePhone,
+body.dark-mode #memberSince,
+body.dark-mode .row p,
+body.dark-mode .col-6 p,
+body.dark-mode .col-12 p {
+  color: #ffffff !important;
+}
+/* Specific styling for profile information labels and values */
+body.dark-mode .card-body strong {
+  color: #cccccc !important;
+  opacity: 0.9;
+}
+
+body.dark-mode .card-body p {
+  color: #ffffff !important;
+  opacity: 1;
+}
+
+/* Ensure all text in user profile section is visible */
+body.dark-mode #userProfile,
+body.dark-mode #userProfile *:not(.btn):not(.alert) {
+  color: #ffffff !important;
+}
+
+/* User greeting and email */
+body.dark-mode #userGreeting,
+body.dark-mode #userEmail {
+  color: #ffffff !important;
+}
+body.dark-mode .form-check-label,
+body.dark-mode .nav-pills .nav-link,
+body.dark-mode .tab-content,
+body.dark-mode .form-text,
+body.dark-mode .invalid-feedback,
+body.dark-mode .alert {
+  color: #ffffff !important;
+}
+
+body.dark-mode .nav-pills .nav-link:not(.active) {
+  color: #cccccc !important;
+  background-color: #2d2d44 !important;
+}
+
+body.dark-mode .nav-pills .nav-link.active {
+  color: #ffffff !important;
+  background: var(--gradient) !important;
+}
+
+body.dark-mode .form-label,
+body.dark-mode .form-text ul li {
+  color: #ffffff !important;
+}
+/*end of fix*/
 /* Reset & Base */
 * {
   margin: 0;
