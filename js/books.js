@@ -66,11 +66,11 @@ function displayBookDetails(book) {
   const fullStars = Math.floor(book.rating);
   const halfStar = book.rating % 1 >= 0.5 ? 1 : 0;
   const emptyStars = 5 - fullStars - halfStar;
-  
+
   let stars = '★'.repeat(fullStars);
   if (halfStar) stars += '½';
   stars += '☆'.repeat(emptyStars);
-  
+
   // Generate HTML for book details
   const detailsHTML = `
     <div class="text-center">
@@ -100,25 +100,27 @@ function displayBookDetails(book) {
     <h4>Description</h4>
     <p class="text-muted">${book.description}</p>
     
-    <div class="book-actions">
-      <button class="btn btn-primary read-book-btn" data-title="${book.title}" data-author="${book.author}">
+    <div class="book-actions d-flex gap-2">
+      <a class="btn btn-primary flex-fill" href="${book.link}" target="_blank">
         📖 Read Book
-      </button>
-      <button class="btn btn-outline-primary" onclick="showToast('✅ Added to wishlist!')">
-        ❤️ Wishlist
+      </a>
+      <button class="btn btn-outline-success flex-fill add-to-my-books-btn"
+        data-title="${book.title}"
+        data-author="${book.author}"
+        data-image="${book.image}">
+        ➕ Add
       </button>
     </div>
-    
     <div class="mt-3">
       <button class="btn btn-outline-secondary w-100" onclick="showToast('📤 Share link copied!')">
         🔗 Share Book
       </button>
     </div>
   `;
-  
+
   // Update the details panel
   $('#bookDetailsPanel').html(detailsHTML);
-  
+
   // Smooth scroll to details panel on mobile
   if ($(window).width() < 992) {
     $('html, body').animate({
@@ -126,3 +128,4 @@ function displayBookDetails(book) {
     }, 500);
   }
 }
+

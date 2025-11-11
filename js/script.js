@@ -1113,7 +1113,7 @@ $(document).on('click', '.add-to-my-books-btn', function() {
     myBooks.push(book);
     localStorage.setItem('myBooks', JSON.stringify(myBooks));
     // You can use your own toast here if you wish
-    alert(`✅ "${title}" added to My Books!`);
+    showToast(`✅ "${title}" added to My Books!`);
   } else {
     alert(`⚠️ "${title}" is already in your library.`);
   }
