@@ -353,6 +353,9 @@ class LibraryManager {
       if (target.classList.contains('btn-primary')) {
         this.handleEventButton(target, e);
       }
+
+
+      
     });
 
     // Form submissions
@@ -448,6 +451,7 @@ class LibraryManager {
       e.preventDefault();
       this.showToast('📰 Loading article...');
     }
+    
   }
 
   // ========================================
@@ -1118,3 +1122,4 @@ $(document).on('click', '.add-to-my-books-btn', function() {
     alert(`⚠️ "${title}" is already in your library.`);
   }
 });
+
