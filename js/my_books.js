@@ -256,64 +256,42 @@ class MyBooksManager {
   // ========================================
 
   createBookCard(book, index) {
-    const col = document.createElement('div');
-    col.className = 'col-md-4 col-lg-3';
-    col.style.animationDelay = `${index * 0.1}s`;
+  const col = document.createElement('div');
+  col.className = 'col-md-4 col-lg-3';
+  col.style.animationDelay = `${index * 0.1}s`;
 
-    const dateAdded = new Date(book.dateAdded).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
+  const dateAdded = new Date(book.dateAdded).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
 
-    const progressBar = book.readingProgress > 0 ? `
-      <div class="progress mb-2" style="height: 4px;">
-        <div class="progress-bar" role="progressbar" style="width: ${book.readingProgress}%" 
-             aria-valuenow="${book.readingProgress}" aria-valuemin="0" aria-valuemax="100"></div>
-      </div>
-      <small class="text-muted">${book.readingProgress}% complete</small>
-    ` : '';
+  const progressBar = book.readingProgress > 0 ? `
+    <div class="progress mb-2" style="height: 4px;">
+      <div class="progress-bar" role="progressbar" style="width: ${book.readingProgress}%" 
+           aria-valuenow="${book.readingProgress}" aria-valuem="0" aria-valuemax="100"></div>
+    </div>
+    <small class="text-muted">${book.readingProgress}% complete</small>
+  ` : '';
 
-    col.innerHTML = `
-      <div class="card h-100 book-card" data-book-id="${book.id}">
-        <div class="position-relative">
-          <img src="${book.image}" 
-               class="card-img-top" 
-               alt="${book.title}" 
-               loading="lazy"
-               onerror="this.src='https://via.placeholder.com/400x260/667eea/ffffff?text=Book+Cover'" />
-          ${book.lastRead ? '<span class="badge bg-primary position-absolute top-0 end-0 m-2">Recently Read</span>' : ''}
-        </div>
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title">${book.title}</h5>
-          <p class="card-text small text-muted mb-2">by ${book.author}</p>
-          <p class="card-text small text-muted mb-3">
-            <i class="bi bi-calendar"></i> Added: ${dateAdded}
-          </p>
-          ${progressBar}
-          <div class="mt-auto">
-            <button class="btn btn-sm btn-primary w-100 mb-2 read-book-btn" data-id="${book.id}">
-              📖 ${book.readingProgress > 0 ? 'Continue Reading' : 'Start Reading'}
-            </button>
-            <div class="btn-group w-100" role="group">
-              <button class="btn btn-sm btn-outline-secondary edit-book" data-id="${book.id}" title="Edit">
-                ✏️
-              </button>
-              <button class="btn btn-sm btn-outline-danger remove-book" 
-                      data-id="${book.id}"
-                      data-title="${book.title}" 
-                      data-author="${book.author}"
-                      title="Remove">
-                🗑️
-              </button>
-            </div>
-          </div>
+  col.innerHTML = `
+    <div class="card h-100 book-card" data-book-id="${book.id || ''}">
+      <img src="${book.image}" class="card-img-top" alt="${book.title}" loading="lazy" />
+      <div class="card-body d-flex flex-column">
+        <h5 class="card-title">${book.title}</h5>
+        <p class="card-text small text-muted mb-2">by ${book.author}</p>
+        <div class="mt-auto">
+          <button class="btn btn-sm btn-primary w-100 mb-2 read-book-btn"
+                  data-link="${book.link || ''}">📖 Read Book</button>
+          <!-- ... other controls ... -->
         </div>
       </div>
-    `;
+    </div>`;
+  return col;
+}
 
-    return col;
-  }
+
+
 
   // ========================================
   // EMPTY STATE
@@ -663,3 +641,11 @@ if (!document.querySelector('#bookCardAnimation')) {
   `;
   document.head.appendChild(style);
 }
+$(document).on('click', '.read-book-btn', function () {
+  const link = $(this).data('link');
+  if (link) {
+    window.open(link, '_blank');
+  } else {
+    alert('No link found for this book!');
+  }
+});

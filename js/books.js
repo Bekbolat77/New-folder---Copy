@@ -19,7 +19,8 @@ $(document).ready(function() {
       genre: $(this).data('genre'),
       rating: $(this).data('rating'),
       description: $(this).data('description'),
-      image: $(this).data('image')
+      image: $(this).data('image'),
+      link: $(this).data('link')
     };
     
     // Display book details

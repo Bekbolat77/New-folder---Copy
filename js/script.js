@@ -439,18 +439,14 @@ class LibraryManager {
     }
   }
 
-  handleEventButton(button, e) {
+ handleEventButton(button, e) {
     const btnText = button.textContent.trim();
     
     if (/Register|Join|Sign Up|RSVP/.test(btnText)) {
       e.preventDefault();
       this.showToast('✅ Successfully registered for the event!');
     }
-    
-    if (/Read More|Read Article/.test(btnText)) {
-      e.preventDefault();
-      this.showToast('📰 Loading article...');
-    }
+
     
   }
 
@@ -1103,23 +1099,21 @@ $(document).ready(function () {
 });
 
 // Book "Add to My Books" handler
+// This should be in your books catalog JS (where the add-to-my-books button logic is handled)
 $(document).on('click', '.add-to-my-books-btn', function() {
   const $btn = $(this);
   const title = $btn.data('title');
   const author = $btn.data('author');
-  const image = $btn.data('image') || '';
-  const dateAdded = new Date().toISOString();
-  const book = {title, author, image, dateAdded};
-
+  const link = $btn.data('link');   // ADD THIS LINE
+  const image = $btn.data('image');
   let myBooks = JSON.parse(localStorage.getItem('myBooks')) || [];
   const exists = myBooks.some(b => b.title === title && b.author === author);
   if (!exists) {
-    myBooks.push(book);
+    myBooks.push({title, author, link, image, dateAdded: new Date().toISOString()}); // INCLUDE LINK HERE
     localStorage.setItem('myBooks', JSON.stringify(myBooks));
-    // You can use your own toast here if you wish
-    showToast(`✅ "${title}" added to My Books!`);
+    showToast('✅ Book added to My Books!');
   } else {
-    alert(`⚠️ "${title}" is already in your library.`);
+    showToast('📚 Book is already in your library!');
   }
 });
 
