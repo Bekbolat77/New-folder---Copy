@@ -25,6 +25,8 @@ class LibraryManager {
     this.setupEventHandlers();
     this.setupLazyLoading();
     this.loadUserBooks();
+    this.setupAuth();
+    this.loadEventButtonStates();
   }
 
   // ========================================
