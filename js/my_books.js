@@ -85,16 +85,20 @@ class MyBooksManager {
     // Simulate async operation (replace with actual API call if needed)
     await this.delay(1000);
 
-    const book = {
-      id: this.generateBookId(),
-      title: this.escapeHtml(title),
-      author: this.escapeHtml(author),
-      image: this.generatePlaceholderImage(title),
-      dateAdded: new Date().toISOString(),
-      lastRead: null,
-      readingProgress: 0,
-      notes: []
-    };
+const linkInput = document.getElementById('bookLink'); 
+const link = linkInput?.value?.trim() || ''; 
+
+const book = {
+  id: this.generateBookId(),
+  title: this.escapeHtml(title),
+  author: this.escapeHtml(author),
+  image: this.generatePlaceholderImage(title),
+  link: link, 
+  dateAdded: new Date().toISOString(),
+  lastRead: null,
+  readingProgress: 0,
+  notes: []
+};
 
     const myBooks = this.getBooksFromStorage();
 
