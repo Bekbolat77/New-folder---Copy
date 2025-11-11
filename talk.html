@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
+<body class="talk-page">
 <nav class="navbar navbar-expand-lg">
   <div class="container">
     <a class="navbar-brand" href="index.html">📚 Digital Reads</a>
@@ -43,25 +43,6 @@
         <li class="nav-item">
           <a class="nav-link" href="profile.html">Profile</a>
         </li>
-    <li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    🌐 ENG
-  </a>
-  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
-    <li><a class="dropdown-item lang-select" data-lang="KAZ" href="#">KAZ</a></li>
-    <li><a class="dropdown-item lang-select" data-lang="RUS" href="#">RUS</a></li>
-    <li><a class="dropdown-item lang-select" data-lang="ENG" href="#">ENG</a></li>
-  </ul>
-</li>
-    <li class="nav-item d-flex align-items-center">
-  <button id="toggleDarkModeBtn"
-          class="btn btn-outline-secondary ms-2"
-          type="button"
-          aria-label="Toggle dark mode"
-          style="min-width:44px; border-radius:50%; font-size:1.4rem; padding:6px 10px; line-height:1;">
-    🌙
-  </button>
-</li>
       </ul>
     </div>
   </div>
@@ -156,6 +137,87 @@
           <div class="accordion-body">
             Yes! Use the report button on any post or comment that violates our community guidelines. Our moderators review all reports.
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Chat Section -->
+  <div class="container my-5">
+    <h2 class="mb-4 text-center">💬 Live Chat</h2>
+    <p class="lead text-muted text-center mb-4">Join the live conversation with fellow readers</p>
+    
+    <!-- Chat Messages Container -->
+    <div class="chat-container">
+      <div id="chatMessages" class="chat-messages">
+        <!-- Messages will be dynamically added here -->
+      </div>
+    </div>
+    
+    <!-- Huge Centered Input Box -->
+    <div class="chat-input-container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-8">
+          <form id="chatForm" class="chat-form">
+            <div class="chat-input-group">
+              <textarea 
+                id="chatMessageInput" 
+                class="form-control chat-input" 
+                placeholder="Type your message here..." 
+                rows="4"
+                maxlength="1000"
+              ></textarea>
+              <button type="submit" class="btn btn-primary chat-send-btn" id="sendChatBtn" disabled>
+                <span>Send</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm-1.138-1.138L13.424 1.87 9.592 6.592 5.498 8.932Z"/>
+                </svg>
+              </button>
+            </div>
+            <small class="text-muted d-block text-center mt-2">
+              <span id="charCount">0</span>/1000 characters
+            </small>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Report User Modal -->
+  <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="reportModalLabel">🚨 Report User</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="mb-3">You are reporting: <strong id="reportedUserName"></strong></p>
+          <form id="reportForm">
+            <div class="mb-3">
+              <label for="reportReason" class="form-label">Reason for reporting</label>
+              <select class="form-select" id="reportReason" required>
+                <option value="">Select a reason...</option>
+                <option value="harassment">Harassment or Bullying</option>
+                <option value="spam">Spam or Unsolicited Content</option>
+                <option value="inappropriate">Inappropriate Content</option>
+                <option value="hate_speech">Hate Speech</option>
+                <option value="fake_account">Fake Account or Impersonation</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="reportDescription" class="form-label">Additional details (optional)</label>
+              <textarea class="form-control" id="reportDescription" rows="4" placeholder="Please provide any additional information that might help us review this report..."></textarea>
+            </div>
+            <div class="alert alert-info">
+              <small>📝 Your report will be reviewed by our moderation team. We take all reports seriously and will take appropriate action.</small>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" id="submitReportBtn">Submit Report</button>
         </div>
       </div>
     </div>
