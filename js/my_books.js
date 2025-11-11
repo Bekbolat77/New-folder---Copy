@@ -281,8 +281,11 @@ class MyBooksManager {
         <h5 class="card-title">${book.title}</h5>
         <p class="card-text small text-muted mb-2">by ${book.author}</p>
         <div class="mt-auto">
-          <button class="btn btn-sm btn-primary w-100 mb-2 read-book-btn"
-                  data-link="${book.link || ''}">📖 Read Book</button>
+          ${
+  book.link
+    ? `<button class="btn btn-sm btn-primary w-100 mb-2 read-book-btn" data-link="${book.link}">📖 Read Book</button>`
+    : `<button class="btn btn-sm btn-secondary w-100 mb-2" disabled>📕 PDF not available</button>`
+}
           <!-- ... other controls ... -->
         </div>
       </div>
