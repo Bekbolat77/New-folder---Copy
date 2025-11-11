@@ -25,6 +25,8 @@ class LibraryManager {
     this.setupEventHandlers();
     this.setupLazyLoading();
     this.loadUserBooks();
+    this.updateNavbarAuth();
+    this.loadEventButtonStates();
   }
 
   // ========================================
@@ -349,13 +351,14 @@ class LibraryManager {
         this.handleSubscribe();
       }
 
+      if (target.classList.contains('event-register-btn')) {
+        this.handleEventRegistration(target);
+      }
       // Event registration buttons
       if (target.classList.contains('btn-primary')) {
         this.handleEventButton(target, e);
       }
 
-
-      
     });
 
     // Form submissions
@@ -688,6 +691,150 @@ class LibraryManager {
     myBooks.forEach(book => {
       const card = this.createBookCard(book.title, book.author);
       userBooks.insertAdjacentHTML('beforeend', card);
+    });
+  }
+    // ========================================
+  // AUTHENTICATION METHODS
+  // ========================================
+
+  updateNavbarAuth() {
+    const currentUser = this.getFromStorage('digitalReadsUser');
+    const authItem = document.getElementById('authItem');
+    
+    if (!authItem) return;
+    
+    if (currentUser) {
+      authItem.innerHTML = `
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            👤 ${currentUser.fullName}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" href="profile.html">My Profile</a></li>
+            <li><a class="dropdown-item" href="my_books.html">My Books</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="#" id="navLogoutBtn">Log Out</a></li>
+          </ul>
+        </div>
+      `;
+      
+      setTimeout(() => {
+        document.getElementById('navLogoutBtn')?.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.handleLogout();
+        });
+      }, 100);
+    } else {
+      authItem.innerHTML = `<a class="nav-link" href="profile.html">Sign In</a>`;
+    }
+  }
+
+  handleLogout() {
+    localStorage.removeItem('digitalReadsUser');
+    this.showToast('👋 Logged out successfully.');
+    this.updateNavbarAuth();
+    
+    if (!window.location.href.includes('index.html')) {
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1000);
+    }
+  }
+
+  // ========================================
+  // EVENT REGISTRATION METHODS
+  // ========================================
+
+  handleEventRegistration(button) {
+    const currentUser = this.getFromStorage('digitalReadsUser');
+    
+    if (!currentUser) {
+      this.showToast('🔐 Please log in to register for events');
+      setTimeout(() => {
+        window.location.href = 'profile.html';
+      }, 1500);
+      return;
+    }
+    
+    const eventId = button.dataset.eventId;
+    const eventTitle = button.dataset.eventTitle;
+    const originalText = button.textContent;
+    
+    let userEvents = this.getFromStorage('userEvents') || {};
+    const userId = currentUser.email;
+    
+    if (!userEvents[userId]) {
+      userEvents[userId] = [];
+    }
+    
+    const isAlreadyRegistered = userEvents[userId].some(event => event.id === eventId);
+    
+    if (isAlreadyRegistered) {
+      this.showToast(`ℹ️ You're already registered for: ${eventTitle}`);
+      button.textContent = '✓ ' + this.getRegisteredText(originalText);
+      button.classList.remove('btn-primary');
+      button.classList.add('btn-success');
+      button.disabled = true;
+      return;
+    }
+    
+    const eventData = {
+      id: eventId,
+      title: eventTitle,
+      originalButtonText: originalText,
+      registeredAt: new Date().toISOString(),
+      status: 'registered'
+    };
+    
+    userEvents[userId].push(eventData);
+    this.saveToStorage('userEvents', userEvents);
+    
+    button.textContent = '✓ ' + this.getRegisteredText(originalText);
+    button.classList.remove('btn-primary');
+    button.classList.add('btn-success');
+    button.disabled = true;
+    
+    this.showToast(`✅ Successfully registered for: ${eventTitle}`);
+    this.saveUserEventRegistration(eventData);
+  }
+
+  getRegisteredText(originalText) {
+    const textMap = {
+      'Register Now': 'Registered',
+      'Join Discussion': 'Joined',
+      'Sign Up': 'Signed Up', 
+      'Accept Challenge': 'Challenge Accepted',
+      'RSVP': 'RSVP Confirmed',
+      'View Schedule': 'Schedule Saved'
+    };
+    return textMap[originalText] || 'Registered';
+  }
+
+  saveUserEventRegistration(eventData) {
+    let myEvents = this.getFromStorage('myEvents') || [];
+    const exists = myEvents.some(event => event.id === eventData.id);
+    if (!exists) {
+      myEvents.push(eventData);
+      this.saveToStorage('myEvents', myEvents);
+    }
+  }
+
+  loadEventButtonStates() {
+    const currentUser = this.getFromStorage('digitalReadsUser');
+    if (!currentUser) return;
+    
+    const userEvents = this.getFromStorage('userEvents') || {};
+    const userEventIds = userEvents[currentUser.email]?.map(event => event.id) || [];
+    
+    document.querySelectorAll('.event-register-btn').forEach(button => {
+      const eventId = button.dataset.eventId;
+      if (userEventIds.includes(eventId)) {
+        const originalText = button.textContent;
+        button.textContent = '✓ ' + this.getRegisteredText(originalText);
+        button.classList.remove('btn-primary');
+        button.classList.add('btn-success');
+        button.disabled = true;
+      }
     });
   }
 
