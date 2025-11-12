@@ -4,7 +4,7 @@
 
 $(document).ready(function() {
 
-  // 1️⃣ BOOK CLICK HANDLER 
+  // 1️⃣ BOOK CLICK HANDLER
   $('.book-item').on('click', function() {
     $('.book-card').removeClass('selected');
     $(this).find('.book-card').addClass('selected');
