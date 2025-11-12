@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Books - Digital Reads</title>
+  <title>My Books - Digital Reads</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/books.css" />
 </head>
 <body>
   <nav class="navbar navbar-expand-lg">
@@ -49,7 +48,7 @@
     🌐 ENG
   </a>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
-    <li><a class="dropdown-item lang-select" data-lang="KAZ" href="#">KAZ</a></li>  
+    <li><a class="dropdown-item lang-select" data-lang="KAZ" href="#">KAZ</a></li>
     <li><a class="dropdown-item lang-select" data-lang="RUS" href="#">RUS</a></li>
     <li><a class="dropdown-item lang-select" data-lang="ENG" href="#">ENG</a></li>
   </ul>
@@ -67,420 +66,57 @@
     </div>
   </div>
 </nav>
-
   <div id="scrollProgress"></div>
 
-  <div class="container-fluid my-5">
-    <div class="row">
-      <!-- Left Side: Books Catalog -->
-      <div class="col-lg-8">
-        <h1 class="mb-4">Book Catalog</h1>
-        
-        <!-- Search Bar -->
-        <div class="mb-4 position-relative">
-          <input type="text" id="searchBooks" class="form-control" placeholder="🔍 Search books by title or author..." autocomplete="off" />
-          <div id="autocompleteList" class="list-group position-absolute w-100" style="z-index: 1000;"></div>
-        </div>
-
-        <!-- Books Grid -->
-        <div class="row g-3" id="booksList">
-          <!-- Book 1 -->
-        <div class="col-md-6 col-lg-4 book-item" 
-     data-title="The Nomads"
-     data-author="Ilyas Yesenberlin"
-     data-year="1976"
-     data-pages="512"
-     data-genre="Historical Novel, Epic"
-     data-rating="4.9"
-     data-description="An epic trilogy depicting the turbulent history of the Kazakh people from the 15th to the 19th century — their struggle for freedom, unity, and survival amid wars and political intrigues. A cornerstone of Kazakh historical literature."
-     data-image="images/the_nomads.jpg"
-     data-pdf="https://www.pushkinlibrary.kz/exhibitions/esenberlin/docs/1.pdf">
-  <div class="card book-card h-100">
-    <img src="images/the_nomads.jpg" class="card-img-top" alt="The Nomads" loading="lazy" />
-    <div class="card-body">
-      <h5 class="card-title">The Nomads</h5>
-      <p class="card-text small text-muted">by Ilyas Yesenberlin</p>
-      <span class="badge bg-success">Historical Novel</span>
-    </div>
-  </div>
-</div>
- 
-
-<!-- Book 8 -->
-<div class="col-md-6 col-lg-4 book-item"
-     data-title="Learning React"
-     data-author="Alex Banks & Eve Porcello"
-     data-year="2020"
-     data-pages="350"
-     data-genre="Programming, Web Development"
-     data-rating="4.8"
-     data-description="A modern hands-on guide to mastering React — covering hooks, context, and component patterns for building scalable web applications."
-     data-image="images/react.jpeg"
-     data-pdf="https://phanindra-reddy.github.io/portfolio/static/media/learningreact.da253db3.pdf">
-  <div class="card book-card h-100">
-    <img src="images/react.jpeg" class="card-img-top" alt="Learning React" loading="lazy" />
-    <div class="card-body">
-      <h5 class="card-title">Learning React</h5>
-      <p class="card-text small text-muted">by Alex Banks & Eve Porcello</p>
-      <span class="badge bg-primary">Programming</span>
-    </div>
-  </div>
-</div>
-
-<!-- Book 8 -->
-<div class="col-md-6 col-lg-4 book-item"
-     data-title="The Lord of the Rings"
-     data-author="J. R. R. Tolkien"
-     data-year="1954"
-     data-pages="1178"
-     data-genre="Fantasy, Adventure, Epic"
-     data-rating="5.0"
-     data-description="An epic high-fantasy trilogy by J. R. R. Tolkien, chronicling the journey to destroy the One Ring and the battle between good and evil in Middle-earth. A masterpiece of imagination, language, and mythmaking that has inspired generations of readers and filmmakers."
-     data-image="https://cdn.litres.ru/pub/c/cover/147321.jpg"
-     data-pdf="https://davitsargsyanblog.wordpress.com/wp-content/uploads/2021/02/tolkin_mastera-fantazii_32_vlastelin-kolec_ml5llw_456156.pdf">
-  <div class="card book-card h-100">
-    <img src="https://cdn.litres.ru/pub/c/cover/147321.jpg" class="card-img-top" alt="The Lord of the Rings" loading="lazy" />
-    <div class="card-body">
-      <h5 class="card-title">The Lord of the Rings</h5>
-      <p class="card-text small text-muted">by J. R. R. Tolkien</p>
-      <span class="badge bg-danger">Fantasy</span>
-    </div>
-  </div>
-</div>
-<!-- Book 11 -->
-<div class="col-md-6 col-lg-4 book-item"
-     data-title="Gaukhar Tas (The Precious Stone)"
-     data-author="Dulat Isabekov"
-     data-year="1970"
-     data-pages="95"
-     data-genre="Kazakh Literature, Prose, Drama"
-     data-rating="4.8"
-     data-description="Dulat Isabekov’s 'Gaukhar Tas' is a lyrical and psychological story that delicately explores the emotions of a Kazakh woman, her love, and the struggles of life. The work portrays the beauty of sincerity, compassion, and moral resilience — a timeless classic of Kazakh literature."
-     data-image="https://imgv2-1-f.scribdassets.com/img/document/632458353/original/332e3eeb0f/1?v=1"
-     data-pdf="https://isabekov.com/?p=457">
-  <div class="card book-card h-100">
-    <img src="https://imgv2-1-f.scribdassets.com/img/document/632458353/original/332e3eeb0f/1?v=1" class="card-img-top" alt="Gaukhar Tas" loading="lazy" />
-    <div class="card-body">
-      <h5 class="card-title">Gaukhar Tas (The Precious Stone)</h5>
-      <p class="card-text small text-muted">by Dulat Isabekov</p>
-      <span class="badge bg-info text-dark">Kazakh Prose</span>
-    </div>
-  </div>
-</div>
-<!-- Book 12 -->
-<div class="col-md-6 col-lg-4 book-item"
-     data-title="HTML and CSS: Design and Build Websites"
-     data-author="Jon Duckett"
-     data-year="2011"
-     data-pages="490"
-     data-genre="Web Development, Programming, Education"
-     data-rating="4.7"
-     data-description="Jon Duckett’s 'HTML and CSS: Design and Build Websites' offers a visually rich, beginner-friendly guide to building modern websites. With colorful layouts, practical examples, and clear explanations, it helps readers understand HTML structure, CSS styling, and web design principles step by step."
-     data-image="images/html,css.jpg"
-     data-pdf="https://books.google.kz/books?id=aGjaBTbT0o0C&printsec=copyright&redir_esc=y#v=onepage&q&f=false">
-  <div class="card book-card h-100">
-    <img src="images/html,css.jpg" class="card-img-top" alt="HTML and CSS: Design and Build Websites" loading="lazy" />
-    <div class="card-body">
-      <h5 class="card-title">HTML and CSS: Design and Build Websites</h5>
-      <p class="card-text small text-muted">by Jon Duckett</p>
-      <span class="badge bg-primary">Web Development</span>
-    </div>
-  </div>
-</div>
-
-<!-- Book 9 -->
-<div class="col-md-6 col-lg-4 book-item"
-     data-title="Война и мир (War and Peace)"
-     data-author="Лев Толстой (Leo Tolstoy)"
-     data-year="1869"
-     data-pages="1225"
-     data-genre="Historical Novel, Epic, Russian Literature"
-     data-rating="5.0"
-     data-description="Leo Tolstoy’s monumental novel 'War and Peace' explores the human experience during Napoleon’s invasion of Russia, weaving together the lives of aristocrats and soldiers in a profound study of fate, freedom, and moral growth. A timeless masterpiece of philosophy and history."
-     data-image="https://tolstoy.ru/upload/creativity/fiction/detail/upload/iblock/72e/w-p.jpg"
-     data-pdf="https://tolstoy.ru/upload/iblock/519/voina-i-mir.pdf">
-  <div class="card book-card h-100">
-    <img src="https://tolstoy.ru/upload/creativity/fiction/detail/upload/iblock/72e/w-p.jpg" class="card-img-top" alt="War and Peace" loading="lazy" />
-    <div class="card-body">
-      <h5 class="card-title">Война и мир (War and Peace)</h5>
-      <p class="card-text small text-muted">by Лев Толстой (Leo Tolstoy)</p>
-      <span class="badge bg-secondary">Historical Epic</span>
-    </div>
-  </div>
-</div>
-
-
-<!-- Book 10 -->
-<div class="col-md-6 col-lg-4 book-item"
-     data-title="Hamlet"
-     data-author="William Shakespeare"
-     data-year="1603"
-     data-pages="210"
-     data-genre="Tragedy, Classic Literature"
-     data-rating="4.9"
-     data-description="William Shakespeare’s 'Hamlet' is one of the greatest tragedies ever written. The play follows Prince Hamlet of Denmark as he seeks revenge for his father's murder, delving into themes of betrayal, madness, fate, and moral corruption. A timeless reflection on human nature."
-     data-image="https://blog.12min.com/staging/wp-content/uploads/sites/5/2018/04/07c-Hamlet-PDF-Summary.jpg"
-     data-pdf="https://socrates.acadiau.ca/courses/engl/rcunningham/resources/Shpe/Hamlet.pdf">
-  <div class="card book-card h-100">
-    <img src="https://blog.12min.com/staging/wp-content/uploads/sites/5/2018/04/07c-Hamlet-PDF-Summary.jpg" class="card-img-top" alt="Hamlet" loading="lazy" />
-    <div class="card-body">
-      <h5 class="card-title">Hamlet</h5>
-      <p class="card-text small text-muted">by William Shakespeare</p>
-      <span class="badge bg-dark">Tragedy</span>
-    </div>
-  </div>
-</div>
-
-<!-- Book 9 -->
-<div class="col-md-6 col-lg-4 book-item"
-     data-title="Python Crash Course"
-     data-author="Eric Matthes"
-     data-year="2019"
-     data-pages="544"
-     data-genre="Programming, Python"
-     data-rating="4.7"
-     data-description="A fast-paced, project-based introduction to programming with Python, teaching coding fundamentals and building real-world projects."
-     data-image="images/python.jpg"
-     data-pdf="https://khwarizmi.org/wp-content/uploads/2021/04/Eric_Matthes_Python_Crash_Course_A_Hands.pdf">
-  <div class="card book-card h-100">
-    <img src="images/python.jpg" class="card-img-top" alt="Python Crash Course" loading="lazy" />
-    <div class="card-body">
-      <h5 class="card-title">Python Crash Course</h5>
-      <p class="card-text small text-muted">by Eric Matthes</p>
-      <span class="badge bg-warning text-dark">Python</span>
-    </div>
-  </div>
-</div>       
-    <!-- BookBestOne -->
-<div class="col-md-6 col-lg-4 book-item"
-     data-title="Abai Zholy (The Path of Abai)"
-     data-author="Mukhtar Auezov"
-     data-year="1942"
-     data-pages="900"
-     data-genre="Classic, Historical Novel"
-     data-rating="5.0"
-     data-description="Mukhtar Auezov’s epic masterpiece that chronicles the life of the great Kazakh poet and thinker Abai Kunanbayev, set against the backdrop of 19th-century Kazakh society. The novel vividly portrays Kazakh culture, traditions, and the transformation of the steppe world."
-     data-image="images/abai_zh.jpg"
-     data-pdf="https://auezov.kz/files/784.pdf">
-  <div class="card book-card h-100">
-    <img src="images/abai_zh.jpg" class="card-img-top" alt="Abai Zholy" loading="lazy" />
-    <div class="card-body">
-      <h5 class="card-title">Abai Zholy (The Path of Abai)</h5>
-      <p class="card-text small text-muted">by Mukhtar Auezov</p>
-      <span class="badge bg-danger">Kazakh Classic</span>
-    </div>
-  </div>
-</div>  
-
-<!-- Book 99 -->
-<div class="col-md-6 col-lg-4 book-item"
-     data-title="Sary Qazaq (The Yellow Kazakh)"
-     data-author="Mukhtar Magauin"
-     data-year="1991"
-     data-pages="410"
-     data-genre="Historical Novel, National Identity"
-     data-rating="4.9"
-     data-description="A deeply philosophical and historical novel by Mukhtar Magauin, exploring the spiritual resilience of the Kazakh people during times of cultural decline and revival. 'Sary Qazaq' reflects the author's signature style — intertwining history, identity, and the eternal Kazakh spirit."
-     data-image="https://resources.cdn-kaspi.kz/img/m/p/h3c/ha3/87197765795870.jpg?format=gallery-medium"
-     data-pdf="https://sauap.org/wp-content/uploads/2016/08/Muhtar_Magauin_Sary_kazak.pdf">
-  <div class="card book-card h-100">
-    <img src="https://resources.cdn-kaspi.kz/img/m/p/h3c/ha3/87197765795870.jpg?format=gallery-medium" class="card-img-top" alt="Sary Qazaq" loading="lazy" />
-    <div class="card-body">
-      <h5 class="card-title">Sary Qazaq (The Yellow Kazakh)</h5>
-      <p class="card-text small text-muted">by Mukhtar Magauin</p>
-      <span class="badge bg-warning text-dark">Kazakh Literature</span>
-    </div>
-  </div>
-</div>
-<!-- Booв -->
-<div class="col-md-6 col-lg-4 book-item"
-     data-title="Kerbugy (The Roan Deer)"
-     data-author="Oralkhan Bokey"
-     data-year="1981"
-     data-pages="220"
-     data-genre="Philosophical Novella, Kazakh Literature"
-     data-rating="4.9"
-     data-description="A lyrical and tragic novella by Oralkhan Bokey, 'Kerbugy' explores the deep connection between humans and nature in the Kazakh steppe. Through powerful symbolism and poetic language, the author reflects on loneliness, purity, and the fading harmony between man and the wild."
-     data-image="https://online.pubhtml5.com/elti/dvzo/files/large/1.jpg"
-     data-pdf="https://pubhtml5.com/elti/dvzo/">
-  <div class="card book-card h-100">
-    <img src="https://online.pubhtml5.com/elti/dvzo/files/large/1.jpg" class="card-img-top" alt="Kerbugy" loading="lazy" />
-    <div class="card-body">
-      <h5 class="card-title">Kerbugy (The Roan Deer)</h5>
-      <p class="card-text small text-muted">by Oralkhan Bokey</p>
-      <span class="badge bg-primary">Philosophical Novella</span>
-    </div>
-  </div>
-</div>
-
-          <div class="col-md-6 col-lg-4 book-item" 
-               data-title="The Great Gatsby" 
-               data-author="F. Scott Fitzgerald"
-               data-year="1925"
-               data-pages="180"
-               data-genre="Classic, Fiction"
-               data-rating="4.5"
-               data-description="Set in the Jazz Age, this novel tells the story of Jay Gatsby's obsessive pursuit of the American Dream and his tragic love for Daisy Buchanan. A masterpiece of American literature."
-               data-image="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/The_Great_Gatsby_Cover_1925_Retouched.jpg/960px-The_Great_Gatsby_Cover_1925_Retouched.jpg"
-              data-pdf="https://www.planetebook.com/free-ebooks/the-great-gatsby.pdf">
-            <div class="card book-card h-100">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/The_Great_Gatsby_Cover_1925_Retouched.jpg/960px-The_Great_Gatsby_Cover_1925_Retouched.jpg" class="card-img-top" alt="The Great Gatsby" loading="lazy" />
-              <div class="card-body">
-                <h5 class="card-title">The Great Gatsby</h5>
-                <p class="card-text small text-muted">by F. Scott Fitzgerald</p>
-                <span class="badge bg-primary">Classic</span>
-              </div>
+  <div class="container my-5">
+    <h1 class="mb-4">My Personal Library</h1>
+    
+    <!-- Add Book Form -->
+    <div class="card mb-5" style="animation: none; opacity: 1; transform: none;">
+      <div class="card-body">
+        <h3 class="mb-3">Add a Book Manually</h3>
+        <form id="addBookForm">
+          <div class="row g-3">
+            <div class="col-md-5">
+              <input type="text" id="bookTitle" class="form-control" placeholder="Book Title" required />
+            </div>
+            <div class="col-md-5">
+              <input type="text" id="bookAuthor" class="form-control" placeholder="Author Name" required />
+            </div>
+            <div class="col-md-2">
+              <button type="submit" class="btn btn-primary w-100">
+                <span id="addBookText">Add Book</span>
+                <span id="addBookSpinner" class="spinner-border spinner-border-sm d-none ms-2"></span>
+              </button>
             </div>
           </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Book Count -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="mb-0">Your Collection (<span id="bookCount">0</span>)</h2>
+      <button id="clearAllBooks" class="btn btn-outline-danger">Clear All Books</button>
+    </div>
+
+    <!-- User Books Display -->
+    <div id="userBooks" class="row g-4">
+      <!-- Books will be loaded here from localStorage -->
+      <div class="col-12 text-center text-muted" id="emptyMessage">
+        <p>No books in your library yet. Start reading to build your collection!</p>
+      </div>
+    </div>
+  </div>
+
   
-          <!-- Book 2 -->
-          <div class="col-md-6 col-lg-4 book-item" 
-               data-title="1984" 
-               data-author="George Orwell"
-               data-year="1949"
-               data-pages="328"
-               data-genre="Dystopian, Science Fiction"
-               data-rating="4.7"
-               data-description="A chilling dystopian novel about totalitarianism, surveillance, and the manipulation of truth. Winston Smith's struggle against Big Brother remains remarkably relevant today."
-               data-image="images/1984.webp"
-               data-pdf="https://www.clarkchargers.org/ourpages/auto/2015/3/10/50720556/1984.pdf">
-               
-            <div class="card book-card h-100">
-              <img src="images/1984.webp" class="card-img-top" alt="1984" loading="lazy" />
-              <div class="card-body">
-                <h5 class="card-title">1984</h5>
-                <p class="card-text small text-muted">by George Orwell</p>
-                <span class="badge bg-danger">Dystopian</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Book 3 -->
-          <div class="col-md-6 col-lg-4 book-item" 
-               data-title="To Kill a Mockingbird" 
-               data-author="Harper Lee"
-               data-year="1960"
-               data-pages="324"
-               data-genre="Classic, Coming-of-age"
-               data-rating="4.8"
-               data-description="Through the eyes of Scout Finch, witness her father Atticus defend a black man accused of rape in 1930s Alabama. A profound exploration of racism, justice, and human dignity."
-               data-image="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1612238791i/56916837.jpg"
-               data-pdf="https://www.raio.org/TKMFullText.pdf">
-            <div class="card book-card h-100">
-              <img src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1612238791i/56916837.jpg" class="card-img-top" alt="To Kill a Mockingbird" loading="lazy" />
-              <div class="card-body">
-                <h5 class="card-title">To Kill a Mockingbird</h5>
-                <p class="card-text small text-muted">by Harper Lee</p>
-                <span class="badge bg-success">Classic</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Book 4 -->
-          <div class="col-md-6 col-lg-4 book-item" 
-               data-title="Pride and Prejudice" 
-               data-author="Jane Austen"
-               data-year="1813"
-               data-pages="432"
-               data-genre="Romance, Classic"
-               data-rating="4.6"
-               data-description="Elizabeth Bennet navigates love, family, and social expectations in Regency England. A timeless romance exploring pride, prejudice, and the transformative power of true understanding."
-               data-image="https://cdn2.penguin.com.au/covers/original/9780141949055.jpg"
-               data-pdf="https://giove.isti.cnr.it/demo/eread/Libri/joy/Pride.pdf">
-            <div class="card book-card h-100">
-              <img src="https://cdn2.penguin.com.au/covers/original/9780141949055.jpg" class="card-img-top" alt="Pride and Prejudice" loading="lazy" />
-              <div class="card-body">
-                <h5 class="card-title">Pride and Prejudice</h5>
-                <p class="card-text small text-muted">by Jane Austen</p>
-                <span class="badge bg-warning">Romance</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Book 5 -->
-          <div class="col-md-6 col-lg-4 book-item" 
-               data-title="The Catcher in the Rye" 
-               data-author="J.D. Salinger"
-               data-year="1951"
-               data-pages="234"
-               data-genre="Coming-of-age, Fiction"
-               data-rating="4.0"
-               data-description="Holden Caulfield's three-day journey through New York City captures teenage angst, alienation, and the painful transition to adulthood. A controversial yet influential classic."
-               data-image="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1398034300i/5107.jpg"
-               data-pdf="https://giove.isti.cnr.it/demo/eread/Libri/sad/Rye.pdf">
-            <div class="card book-card h-100">
-              <img src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1398034300i/5107.jpg" class="card-img-top" alt="The Catcher in the Rye" loading="lazy" />
-              <div class="card-body">
-                <h5 class="card-title">The Catcher in the Rye</h5>
-                <p class="card-text small text-muted">by J.D. Salinger</p>
-                <span class="badge bg-info">Coming-of-age</span>
-              </div>
-            </div>
-          </div>
-            <!-- Historical Reference: Mein Kampf -->
-<div class="col-md-6 col-lg-4 book-item"
-     data-title="Mein Kampf (Historical Reference)"
-     data-author="Adolf Hitler"
-     data-year="1925"
-     data-pages="720"
-     data-genre="History, Political Ideology, 20th Century"
-     data-rating="1.0"
-     data-description="This book, written by Adolf Hitler during his imprisonment in 1924, outlines his political ideology and plans for Germany. It is included here solely as a historical artifact for academic and research discussion of totalitarian ideologies, propaganda, and the rise of Nazism."
-     data-image="https://dominicwinter.blob.core.windows.net/stock/667496-0.jpg?v=63716599703677"
-     data-pdf="https://www.sjsu.edu/people/mary.pickering/courses/His146/s1/MeinKampfpartone0001.pdf">
-  <div class="card book-card h-100">
-    <img src="https://dominicwinter.blob.core.windows.net/stock/667496-0.jpg?v=63716599703677" class="card-img-top" alt="Mein Kampf (Historical Reference)" loading="lazy" />
-    <div class="card-body">
-      <h5 class="card-title">Mein Kampf (Historical Reference)</h5>
-      <p class="card-text small text-muted">by Austrian Painter </p>
-      <span class="badge bg-danger text-light">Historical Document</span>
-    </div>
-  </div>
-</div>
-          <!-- Book 6 -->
-          <div class="col-md-6 col-lg-4 book-item" 
-               data-title="The Hobbit" 
-               data-author="J.R.R. Tolkien"
-               data-year="1937"
-               data-pages="310"
-               data-genre="Fantasy, Adventure"
-               data-rating="4.7"
-               data-description="Join Bilbo Baggins on an unexpected journey across Middle-earth with dwarves and a wizard. A tale of courage, friendship, and adventure that preceded The Lord of the Rings."
-               data-image="https://m.media-amazon.com/images/I/712cDO7d73L._AC_UF1000,1000_QL80_.jpg"
-               data-pdf="https://rsd2-alert-durden-reading-room.weebly.com/uploads/6/7/1/6/6716949/the_hobbit_tolkien.pdf">
-               
-            <div class="card book-card h-100">
-              <img src="https://m.media-amazon.com/images/I/712cDO7d73L._AC_UF1000,1000_QL80_.jpg" class="card-img-top" alt="The Hobbit" loading="lazy" />
-              <div class="card-body">
-                <h5 class="card-title">The Hobbit</h5>
-                <p class="card-text small text-muted">by J.R.R. Tolkien</p>
-                <span class="badge bg-secondary">Fantasy</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right Side: Book Details Panel -->
-      <div class="col-lg-4">
-        <div id="bookDetailsPanel" class="book-details-panel">
-          <div class="text-center text-muted py-5">
-            <i class="fs-1">📚</i>
-            <p class="mt-3">Click on a book to see details</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <footer>
+ <footer>
     <p>&copy; 2025 Digital Reads | Team: Nurassyl, Dias, Nurkhan, Bekbolat</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="js/script.js"></script>
-  <script src="js/books.js"></script>
   <script src="js/my_books.js"></script>
 </body>
 </html>
